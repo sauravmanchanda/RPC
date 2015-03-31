@@ -1,5 +1,5 @@
 package UDC;
 public class udc0 implements java.io.Serializable
 {
-	int a;
+	public int a;
 }

@@ -70,6 +70,33 @@ void writeFunction(ofstream &fout)
 	fout<<"\t\tRPCObj.thro=null;\n";
 	//Work to be done
 
+	fout<<"\t\tThread receiver = new Thread(\"Receiver\")\n";	
+	fout<<"\t\t{\n";
+	fout<<"\t\t\tpublic void run()\n";	
+	fout<<"\t\t\t{\n";	
+	fout<<"\t\t\t\ttry\n";	
+	fout<<"\t\t\t\t{\n";
+	fout<<"\t\t\t\t\tServerSocket ss = new ServerSocket(2002);\n";
+	fout<<"\t\t\t\t\tSocket receiver = ss.accept();\n";
+	fout<<"\t\t\t\t\tInputStream is = receiver.getInputStream();\n";
+	fout<<"\t\t\t\t\tObjectInputStream ois = new ObjectInputStream(is);\n";
+	fout<<"\t\t\t\t\tRPCClass returned_obj = (RPCClass)ois.readObject();\n";
+	fout<<"\t\t\t\t\tois.close();\n";
+	fout<<"\t\t\t\t\tis.close();\n";
+	fout<<"\t\t\t\t\treceiver.close();\n";
+	fout<<"\t\t\t\t\tss.close();\n";
+	fout<<"\t\t\t\t\tRPCObj.p0 = returned_obj.p0;\n";
+	fout<<"\t\t\t\t\tRPCObj.p1 = returned_obj.p1;\n";
+	fout<<"\t\t\t\t\tRPCObj.thro = returned_obj.thro;\n";
+	fout<<"\t\t\t\t\tRPCObj.retVal = returned_obj.retVal;\n";
+	fout<<"\t\t\t\t}\n";
+	fout<<"\t\t\t\tcatch(Exception e)\n";	
+	fout<<"\t\t\t\t{\n";
+	fout<<"\t\t\t\t\tSystem.out.println(e);\n";
+	fout<<"\t\t\t\t}\n";	
+	fout<<"\t\t\t}\n";	
+	fout<<"\t\t};\n";	
+	fout<<"\t\treceiver.start();\n";
 	fout<<"\t\ttry\n";	
 	fout<<"\t\t{\n";
 	fout<<"\t\t\tSocket s = new Socket(\"localhost\",2002);\n";
@@ -86,6 +113,11 @@ void writeFunction(ofstream &fout)
 
 
 
+	fout<<"\t\twhile(receiver.getState()!=Thread.State.TERMINATED){}\n";
+	for (i=0;i<parVect.size();i++)
+	{
+		fout<<"\t\tp"<<i<<" = RPCObj.p"<<i<<";\n";
+	}
 	fout<<"\t\treturn RPCObj.retVal;\n";
 	fout<<"\t}\n";
 

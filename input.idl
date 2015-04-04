@@ -7,7 +7,7 @@ struct s {
 };
 #enddef
 
-refresh()[anand]
-negate(in float a, out float b)[shashank, saurav]
-add(in int a, in int b,  out int c) [sahil]
-multiply(in int a, in int b, out int c) [saurav, sahil]
+float refresh()[anand]
+int negate(in float a, out float b)[shashank, saurav]
+int add(in int a, in int b,  out int c) [sahil]
+int multiply(in int a, in int b, out int c) [saurav, sahil]

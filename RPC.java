@@ -4,11 +4,11 @@ import java.io.*;
 
 public abstract class RPC extends Throwable
 {
-	public static int refresh()
+	public static float refresh()
 	{
 		class RPCClass implements java.io.Serializable
 		{
-			public int retVal;
+			public float retVal;
 			public String funName;
 			public Throwable thro;
 			public void write_to_stream(OutputStream os)

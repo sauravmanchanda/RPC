@@ -5,23 +5,9 @@
 
 using namespace std;
 
-void writeFunction(ofstream &fout)
+void writeFunction(ofstream &fout, string retType, string funName, vector<string>& parVect, vector<string>& ipList)
 {
 	/* code */
-	string retType("udc0");
-	string funName("fun");
-	vector<string> parVect;
-	vector<string> ipList;
-	parVect.push_back("udc1");
-	parVect.push_back("udc2");
-	ipList.push_back("127.0.0.1");
-	
-
-
-
-
-
-
 
 	//Work starts here
 	fout<<"\tpublic static "<<retType<<" "<<funName<<"(";
@@ -149,7 +135,16 @@ void writeFile()
 	fout<<"import java.io.*;\n\n";
 	fout<<"public abstract class RPC extends Throwable\n{\n";
 
-	writeFunction(fout);
+	string retType("udc0");
+	string funName("fun");
+	vector<string> parVect;
+	vector<string> ipList;
+	parVect.push_back("udc1");
+	parVect.push_back("udc2");
+	ipList.push_back("127.0.0.1");
+
+
+	writeFunction(fout, retType, funName, parVect, ipList);
 	
 	fout<<"}";
 	fout.close();

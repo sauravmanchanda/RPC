@@ -1257,7 +1257,7 @@ yyreduce:
 
   case 3:
 #line 46 "idlspec.y" /* yacc.c:1646  */
-    { cout << "done with a IDL file!" << endl; }
+    { cout << "Done with a IDL file!" << endl; }
 #line 1262 "idlspec.tab.cpp" /* yacc.c:1646  */
     break;
 

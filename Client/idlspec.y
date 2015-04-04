@@ -43,7 +43,7 @@ void yyerror(const char *s);
 %%
 idl:
    definition_section body_section { cout << "done with a IDL file!" << endl; }
-    | body_section{ cout << "done with a IDL file!" << endl; }
+    | body_section{ cout << "Done with a IDL file!" << endl; }
     ;
 
 definition_section : 

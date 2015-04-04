@@ -50,7 +50,7 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
 
 
 fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
-  fout<<"\t\tRPCObj.retVal=null;\n";
+  // fout<<"\t\tRPCObj.retVal=null;\n";
   fout<<"\t\tRPCObj.funName=\""<<funName<<"\";\n";
   for (i=0;i<parVect.size();i++)
   {
@@ -58,7 +58,7 @@ fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
   }
   fout<<"\t\tRPCObj.thro=null;\n";
   
-  fout<<"\t\tArrayList ipList = new ArrayList();\n";
+  fout<<"\t\tArrayList<String> ipList = new ArrayList<String>();\n";
   for (i=0;i<ipList.size();i++)
   {
     fout<<"\t\tipList.add(\""<<ipList[i]<<"\");\n";
@@ -125,6 +125,7 @@ void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, stri
 {
 	fout<<"import UDC.*;\n";
 	fout<<"import java.net.*;\n";
+  fout<<"import java.util.ArrayList;\n";
 	fout<<"import java.io.*;\n\n";
 	fout<<"public abstract class RPC extends Throwable\n{\n";
 

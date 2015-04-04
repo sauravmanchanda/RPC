@@ -1,5 +1,6 @@
 import UDC.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.io.*;
 
 public abstract class RPC extends Throwable
@@ -26,11 +27,10 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.retVal=null;
 		RPCObj.funName="refresh";
 		RPCObj.thro=null;
-		ArrayList ipList = new ArrayList();
-		ipList.add("anand");
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("localhost");
 
 		Thread receiver = new Thread("Receiver")
 		{
@@ -99,14 +99,13 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.retVal=null;
 		RPCObj.funName="negate";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.thro=null;
-		ArrayList ipList = new ArrayList();
-		ipList.add("shashank");
-		ipList.add("saurav");
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("localhost");
+		ipList.add("localhost");
 
 		Thread receiver = new Thread("Receiver")
 		{
@@ -180,14 +179,13 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.retVal=null;
 		RPCObj.funName="add";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
-		ArrayList ipList = new ArrayList();
-		ipList.add("sahil");
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("localhost");
 
 		Thread receiver = new Thread("Receiver")
 		{
@@ -263,15 +261,14 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.retVal=null;
 		RPCObj.funName="multiply";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
-		ArrayList ipList = new ArrayList();
-		ipList.add("saurav");
-		ipList.add("sahil");
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("localhost");
+		ipList.add("localhost");
 
 		Thread receiver = new Thread("Receiver")
 		{

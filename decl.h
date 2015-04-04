@@ -15,54 +15,11 @@
 using namespace std;
 namespace MyNamespace{
 
-struct Identifier{
-	public:
-		int type;
-		std::string *name;
-		std::list <int> NextList;
-		std::list <int> TrueList;
-		std::list <int> FalseList;
-		int StartLoc;
 
-		Identifier(char *name,int type){
-			this -> name = new string(name);
-			this -> type = type;
-		}
-		Identifier(string name,int type){
-			this -> name = new string(name);
-			this -> type = type;
-		}
-		Identifier(string *name,int type){
-			this -> name = name;
-			this -> type = type;
-		}
-		~Identifier(){
-			delete(name);
-		}
-	};
-
-struct Statement{
-	int StartLoc;
-	std::list<int> TrueList;
-	std::list<int> FalseList;
-	std::list<int> NextList;
-};
-
-struct Insert{
-	int StartLoc;
-	int Address;
-};
-
-struct Constant{
-	int type;
-	union {
-		int integer;
-		float real;		
-	}value;
-};
 
 struct Argument{
-	int iotype, datatype;
+	int iotype;
+        string datatype;
 	string name;
 };
 

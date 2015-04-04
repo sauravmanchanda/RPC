@@ -33,7 +33,7 @@ void yyerror(const char *s);
 %token IO_IN IO_OUT IO_INOUT INT FLOAT DEF_BEGIN
 %token <sval> IDENTIFIER
 %token <sval> DEF_END 
-%type <ival> type_specifier
+%type <sval> type_specifier
 %type <ival> io_type
 
 %%
@@ -86,8 +86,7 @@ io_type :
 ;
 
 type_specifier :
-    INT             {$$ = TYPE_INT; }
-    | FLOAT         {$$ = TYPE_FLOAT;}
+    IDENTIFIER             {$$ = $1; }
 ;
 %%
 
@@ -111,7 +110,7 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<Argume
 	int i;
 	for (i=0;i<parVect.size();i++)
 	{
-		fout<<lookUpConstantName(parVect[i].datatype)<<" "<<parVect[i].name;
+		fout<< parVect[i].datatype <<" "<<parVect[i].name;
 	    if (i < parVect.size() - 1) 
                 fout << ", " ;
         }
@@ -124,7 +123,7 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<Argume
 	fout<<"\t\t\tpublic String funName;\n";
 	for (i=0;i<parVect.size();i++)
 	{
-		fout<<"\t\t\tpublic "<<lookUpConstantName(parVect[i].datatype)<<" "<<parVect[i].name<<";\n";
+		fout<<"\t\t\tpublic "<< parVect[i].datatype <<" "<<parVect[i].name<<";\n";
 	}
 	fout<<"\t\t\tpublic Throwable thro;\n";
 	fout<<"\t\t\tpublic void write_to_stream(OutputStream os)\n";	
@@ -207,9 +206,6 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<Argume
 	fout<<"\t\treturn RPCObj.retVal;\n";
 	fout<<"\t}\n";
 
-
-
-
 	//work ends here
 }
 void writeFile()
@@ -222,7 +218,8 @@ void writeFile()
 
         for(int i = 1; i < funcID; i++){
 	        string retType("int");
-	        writeFunction(fout, retType, funcName[i], allArguments[i], allLocations[i]);
+	        if (i > 1) {fout << "\n\n\n" ;}
+                writeFunction(fout, retType, funcName[i], allArguments[i], allLocations[i]);
         }
 
 	

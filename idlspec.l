@@ -23,10 +23,8 @@ std::stringstream defs;
 in              {return IO_IN;}
 out             {return IO_OUT;}
 inout           {return IO_INOUT;}
-int             {return INT;}
-float           {return FLOAT;}
-"#def"          {cout << "in def state\n"; BEGIN(DEF_STATE)  ; return DEF_BEGIN; }
-<DEF_STATE>"#enddef"       {cout << " back to initial\n"; BEGIN(INITIAL); yylval.sval = strdup(defs.str().c_str());  return DEF_END; }
+"#def"          {/*cout << "in def state\n";*/ BEGIN(DEF_STATE)  ; return DEF_BEGIN; }
+<DEF_STATE>"#enddef"       {/*cout << " back to initial\n";*/ BEGIN(INITIAL); yylval.sval = strdup(defs.str().c_str());  return DEF_END; }
 "("         { return('('); }
 ")"         { return(')'); }
 ","         { return(','); }
@@ -41,7 +39,6 @@ float           {return FLOAT;}
 }
 
 <DEF_STATE>. {
-   cout << "using general string rule" << endl ;
    defs.put(*yytext);
 }
 %%

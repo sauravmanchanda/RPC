@@ -69,6 +69,9 @@ public abstract class RPC extends Throwable
 		while(receiver.getState()!=Thread.State.TERMINATED){}
 		return RPCObj.retVal;
 	}
+
+
+
 	public static int negate(float a, float b)
 	{
 		class RPCClass implements java.io.Serializable
@@ -142,6 +145,9 @@ public abstract class RPC extends Throwable
 		b = RPCObj.b;
 		return RPCObj.retVal;
 	}
+
+
+
 	public static int add(int a, int b, int c)
 	{
 		class RPCClass implements java.io.Serializable
@@ -219,6 +225,9 @@ public abstract class RPC extends Throwable
 		c = RPCObj.c;
 		return RPCObj.retVal;
 	}
+
+
+
 	public static int multiply(int a, int b, int c)
 	{
 		class RPCClass implements java.io.Serializable

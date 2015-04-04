@@ -21,7 +21,7 @@ extern void writeFunction(ofstream &fout, string retType, string funName, vector
       if (i < parVect.size() - 1) 
                 fout << ", " ;
         }
-  fout<<")\n\t{\n";
+  fout<<") throws Throwable\n\t{\n";
 
 
 
@@ -33,7 +33,7 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
     fout<<"\t\t\tpublic "<< parVect[i].datatype <<" "<<parVect[i].name<<";\n";
   }
   fout<<"\t\t\tpublic Throwable thro;\n";
-  fout<<"\t\t\tpublic void write_to_stream(OutputStream os)\n";	
+  fout<<"\t\t\tpublic void writeToStream(OutputStream os)\n";	
   fout<<"\t\t\t{\n";		
   fout<<"\t\t\t\ttry\n";	
   fout<<"\t\t\t\t{\n";
@@ -45,7 +45,26 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
   fout<<"\t\t\t\t{\n";
   fout<<"\t\t\t\t\tSystem.out.println(e);\n";
   fout<<"\t\t\t\t}\n";	
-  fout<<"\t\t\t}\n";	
+  fout<<"\t\t\t}\n";
+
+  fout<<"\t\t\tpublic RPCClass readFromStream(InputStream is)\n"; 
+  fout<<"\t\t\t{\n";    
+  fout<<"\t\t\t\tRPCClass returned_obj=this;\n";
+  fout<<"\t\t\t\ttry\n";  
+  fout<<"\t\t\t\t{\n";
+  fout<<"\t\t\t\t\tObjectInputStream ois = new ObjectInputStream(is);\n";
+  fout<<"\t\t\t\t\treturned_obj = (RPCClass)ois.readObject();\n";
+  fout<<"\t\t\t\t\tois.close();\n";
+  fout<<"\t\t\t\t}\n";    
+  fout<<"\t\t\t\tcatch(Exception e)\n"; 
+  fout<<"\t\t\t\t{\n";
+  fout<<"\t\t\t\t\tSystem.out.println(e);\n";
+  fout<<"\t\t\t\t}\n";
+  fout<<"\t\t\t\tfinally\n"; 
+  fout<<"\t\t\t\t{\n";
+  fout<<"\t\t\t\t\treturn returned_obj;\n";
+  fout<<"\t\t\t\t}\n";
+  fout<<"\t\t\t}\n";
   fout<<"\t\t}\n";
 
 
@@ -57,6 +76,7 @@ fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
     fout<<"\t\tRPCObj."<<parVect[i].name<<"="<<parVect[i].name<<";\n";
   }
   fout<<"\t\tRPCObj.thro=null;\n";
+  fout<<"\n";
   
   fout<<"\t\tArrayList<String> ipList = new ArrayList<String>();\n";
   for (i=0;i<ipList.size();i++)
@@ -65,7 +85,7 @@ fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
   }
   fout<<"\n";
 
-
+  /*  
   fout<<"\t\tThread receiver = new Thread(\"Receiver\")\n";	
   fout<<"\t\t{\n";
   fout<<"\t\t\tpublic void run()\n";	
@@ -81,7 +101,7 @@ fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
   fout<<"\t\t\t\t\tis.close();\n";
   fout<<"\t\t\t\t\treceiver.close();\n";
   fout<<"\t\t\t\t\tss.close();\n";
-
+  
 for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\t\t\t\tRPCObj."<<parVect[i].name<<" = returned_obj."<<parVect[i].name<<";\n";
@@ -96,12 +116,24 @@ for (i=0;i<parVect.size();i++)
   fout<<"\t\t\t}\n";	
   fout<<"\t\t};\n";	
   fout<<"\t\treceiver.start();\n";
+  */
+
+
+
+  fout<<"\t\tString serverName = ServerSelector.select(ipList,\"first\");\n";
+  fout<<"\t\tint port = 6066;\t\t//What to do if multiple processes on same machine?\n"; 
+
+
+
   fout<<"\t\ttry\n";	
   fout<<"\t\t{\n";
-  fout<<"\t\t\tSocket s = new Socket(\"localhost\",2002);\n";
+  fout<<"\t\t\tSocket s = new Socket(serverName,port);\n";
   fout<<"\t\t\tOutputStream os = s.getOutputStream();\n";
-  fout<<"\t\t\tRPCObj.write_to_stream(os);\n";
+  fout<<"\t\t\tInputStream is = s.getInputStream();\n";
+  fout<<"\t\t\tRPCObj.writeToStream(os);\n";
   fout<<"\t\t\tos.close();\n";
+  fout<<"\t\t\tRPCObj=RPCObj.readFromStream(is);\n";
+  fout<<"\t\t\tis.close();\n";
   fout<<"\t\t\ts.close();\n";
   fout<<"\t\t}\n";		
   fout<<"\t\tcatch(Exception e)\n";	
@@ -109,11 +141,12 @@ for (i=0;i<parVect.size();i++)
   fout<<"\t\t\tSystem.out.println(e);\n";
   fout<<"\t\t}\n";	
 
-  fout<<"\t\twhile(receiver.getState()!=Thread.State.TERMINATED){}\n";
+  // fout<<"\t\twhile(receiver.getState()!=Thread.State.TERMINATED){}\n";
   for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\t"<<parVect[i].name<<" = RPCObj."<<parVect[i].name<<";\n";
   }
+  fout<<"\t\tif(RPCObj.thro!=null)\n\t\t\tthrow RPCObj.thro;\n";
   fout<<"\t\treturn RPCObj.retVal;\n";
   fout<<"\t}\n";
 

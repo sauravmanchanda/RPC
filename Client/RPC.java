@@ -5,14 +5,14 @@ import java.io.*;
 
 public abstract class RPC extends Throwable
 {
-	public static float refresh()
+	public static float refresh() throws Throwable
 	{
 		class RPCClass implements java.io.Serializable
 		{
 			public float retVal;
 			public String funName;
 			public Throwable thro;
-			public void write_to_stream(OutputStream os)
+			public void writeToStream(OutputStream os)
 			{
 				try
 				{
@@ -25,57 +25,57 @@ public abstract class RPC extends Throwable
 					System.out.println(e);
 				}
 			}
-		}
-		RPCClass RPCObj = new RPCClass();
-		RPCObj.funName="refresh";
-		RPCObj.thro=null;
-		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("localhost");
-
-		Thread receiver = new Thread("Receiver")
-		{
-			public void run()
+			public RPCClass readFromStream(InputStream is)
 			{
+				RPCClass returned_obj=this;
 				try
 				{
-					ServerSocket ss = new ServerSocket(2002);
-					Socket receiver = ss.accept();
-					InputStream is = receiver.getInputStream();
 					ObjectInputStream ois = new ObjectInputStream(is);
-					RPCClass returned_obj = (RPCClass)ois.readObject();
+					returned_obj = (RPCClass)ois.readObject();
 					ois.close();
-					is.close();
-					receiver.close();
-					ss.close();
-					RPCObj.thro = returned_obj.thro;
-					RPCObj.retVal = returned_obj.retVal;
 				}
 				catch(Exception e)
 				{
 					System.out.println(e);
 				}
+				finally
+				{
+					return returned_obj;
+				}
 			}
-		};
-		receiver.start();
+		}
+		RPCClass RPCObj = new RPCClass();
+		RPCObj.funName="refresh";
+		RPCObj.thro=null;
+
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("localhost");
+
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
 		try
 		{
-			Socket s = new Socket("localhost",2002);
+			Socket s = new Socket(serverName,port);
 			OutputStream os = s.getOutputStream();
-			RPCObj.write_to_stream(os);
+			InputStream is = s.getInputStream();
+			RPCObj.writeToStream(os);
 			os.close();
+			RPCObj=RPCObj.readFromStream(is);
+			is.close();
 			s.close();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
-		while(receiver.getState()!=Thread.State.TERMINATED){}
+		if(RPCObj.thro!=null)
+			throw RPCObj.thro;
 		return RPCObj.retVal;
 	}
 
 
 
-	public static int negate(float a, float b)
+	public static int negate(float a, float b) throws Throwable
 	{
 		class RPCClass implements java.io.Serializable
 		{
@@ -84,7 +84,7 @@ public abstract class RPC extends Throwable
 			public float a;
 			public float b;
 			public Throwable thro;
-			public void write_to_stream(OutputStream os)
+			public void writeToStream(OutputStream os)
 			{
 				try
 				{
@@ -97,64 +97,62 @@ public abstract class RPC extends Throwable
 					System.out.println(e);
 				}
 			}
+			public RPCClass readFromStream(InputStream is)
+			{
+				RPCClass returned_obj=this;
+				try
+				{
+					ObjectInputStream ois = new ObjectInputStream(is);
+					returned_obj = (RPCClass)ois.readObject();
+					ois.close();
+				}
+				catch(Exception e)
+				{
+					System.out.println(e);
+				}
+				finally
+				{
+					return returned_obj;
+				}
+			}
 		}
 		RPCClass RPCObj = new RPCClass();
 		RPCObj.funName="negate";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.thro=null;
+
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add("localhost");
 		ipList.add("localhost");
 
-		Thread receiver = new Thread("Receiver")
-		{
-			public void run()
-			{
-				try
-				{
-					ServerSocket ss = new ServerSocket(2002);
-					Socket receiver = ss.accept();
-					InputStream is = receiver.getInputStream();
-					ObjectInputStream ois = new ObjectInputStream(is);
-					RPCClass returned_obj = (RPCClass)ois.readObject();
-					ois.close();
-					is.close();
-					receiver.close();
-					ss.close();
-					RPCObj.a = returned_obj.a;
-					RPCObj.b = returned_obj.b;
-					RPCObj.thro = returned_obj.thro;
-					RPCObj.retVal = returned_obj.retVal;
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-			}
-		};
-		receiver.start();
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
 		try
 		{
-			Socket s = new Socket("localhost",2002);
+			Socket s = new Socket(serverName,port);
 			OutputStream os = s.getOutputStream();
-			RPCObj.write_to_stream(os);
+			InputStream is = s.getInputStream();
+			RPCObj.writeToStream(os);
 			os.close();
+			RPCObj=RPCObj.readFromStream(is);
+			is.close();
 			s.close();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
-		while(receiver.getState()!=Thread.State.TERMINATED){}
 		a = RPCObj.a;
 		b = RPCObj.b;
+		if(RPCObj.thro!=null)
+			throw RPCObj.thro;
 		return RPCObj.retVal;
 	}
 
 
 
-	public static int add(int a, int b, int c)
+	public static int add(int a, int b, int c) throws Throwable
 	{
 		class RPCClass implements java.io.Serializable
 		{
@@ -164,7 +162,7 @@ public abstract class RPC extends Throwable
 			public int b;
 			public int c;
 			public Throwable thro;
-			public void write_to_stream(OutputStream os)
+			public void writeToStream(OutputStream os)
 			{
 				try
 				{
@@ -175,6 +173,24 @@ public abstract class RPC extends Throwable
 				catch(Exception e)
 				{
 					System.out.println(e);
+				}
+			}
+			public RPCClass readFromStream(InputStream is)
+			{
+				RPCClass returned_obj=this;
+				try
+				{
+					ObjectInputStream ois = new ObjectInputStream(is);
+					returned_obj = (RPCClass)ois.readObject();
+					ois.close();
+				}
+				catch(Exception e)
+				{
+					System.out.println(e);
+				}
+				finally
+				{
+					return returned_obj;
 				}
 			}
 		}
@@ -184,59 +200,38 @@ public abstract class RPC extends Throwable
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
+
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add("localhost");
 
-		Thread receiver = new Thread("Receiver")
-		{
-			public void run()
-			{
-				try
-				{
-					ServerSocket ss = new ServerSocket(2002);
-					Socket receiver = ss.accept();
-					InputStream is = receiver.getInputStream();
-					ObjectInputStream ois = new ObjectInputStream(is);
-					RPCClass returned_obj = (RPCClass)ois.readObject();
-					ois.close();
-					is.close();
-					receiver.close();
-					ss.close();
-					RPCObj.a = returned_obj.a;
-					RPCObj.b = returned_obj.b;
-					RPCObj.c = returned_obj.c;
-					RPCObj.thro = returned_obj.thro;
-					RPCObj.retVal = returned_obj.retVal;
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-			}
-		};
-		receiver.start();
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
 		try
 		{
-			Socket s = new Socket("localhost",2002);
+			Socket s = new Socket(serverName,port);
 			OutputStream os = s.getOutputStream();
-			RPCObj.write_to_stream(os);
+			InputStream is = s.getInputStream();
+			RPCObj.writeToStream(os);
 			os.close();
+			RPCObj=RPCObj.readFromStream(is);
+			is.close();
 			s.close();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
-		while(receiver.getState()!=Thread.State.TERMINATED){}
 		a = RPCObj.a;
 		b = RPCObj.b;
 		c = RPCObj.c;
+		if(RPCObj.thro!=null)
+			throw RPCObj.thro;
 		return RPCObj.retVal;
 	}
 
 
 
-	public static int multiply(int a, int b, int c)
+	public static int multiply(int a, int b, int c) throws Throwable
 	{
 		class RPCClass implements java.io.Serializable
 		{
@@ -246,7 +241,7 @@ public abstract class RPC extends Throwable
 			public int b;
 			public int c;
 			public Throwable thro;
-			public void write_to_stream(OutputStream os)
+			public void writeToStream(OutputStream os)
 			{
 				try
 				{
@@ -259,6 +254,24 @@ public abstract class RPC extends Throwable
 					System.out.println(e);
 				}
 			}
+			public RPCClass readFromStream(InputStream is)
+			{
+				RPCClass returned_obj=this;
+				try
+				{
+					ObjectInputStream ois = new ObjectInputStream(is);
+					returned_obj = (RPCClass)ois.readObject();
+					ois.close();
+				}
+				catch(Exception e)
+				{
+					System.out.println(e);
+				}
+				finally
+				{
+					return returned_obj;
+				}
+			}
 		}
 		RPCClass RPCObj = new RPCClass();
 		RPCObj.funName="multiply";
@@ -266,54 +279,33 @@ public abstract class RPC extends Throwable
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
+
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add("localhost");
 		ipList.add("localhost");
 
-		Thread receiver = new Thread("Receiver")
-		{
-			public void run()
-			{
-				try
-				{
-					ServerSocket ss = new ServerSocket(2002);
-					Socket receiver = ss.accept();
-					InputStream is = receiver.getInputStream();
-					ObjectInputStream ois = new ObjectInputStream(is);
-					RPCClass returned_obj = (RPCClass)ois.readObject();
-					ois.close();
-					is.close();
-					receiver.close();
-					ss.close();
-					RPCObj.a = returned_obj.a;
-					RPCObj.b = returned_obj.b;
-					RPCObj.c = returned_obj.c;
-					RPCObj.thro = returned_obj.thro;
-					RPCObj.retVal = returned_obj.retVal;
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-			}
-		};
-		receiver.start();
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
 		try
 		{
-			Socket s = new Socket("localhost",2002);
+			Socket s = new Socket(serverName,port);
 			OutputStream os = s.getOutputStream();
-			RPCObj.write_to_stream(os);
+			InputStream is = s.getInputStream();
+			RPCObj.writeToStream(os);
 			os.close();
+			RPCObj=RPCObj.readFromStream(is);
+			is.close();
 			s.close();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
-		while(receiver.getState()!=Thread.State.TERMINATED){}
 		a = RPCObj.a;
 		b = RPCObj.b;
 		c = RPCObj.c;
+		if(RPCObj.thro!=null)
+			throw RPCObj.thro;
 		return RPCObj.retVal;
 	}
 }

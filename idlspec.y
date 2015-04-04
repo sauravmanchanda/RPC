@@ -102,19 +102,19 @@ string lookUpConstantName(int c){
     }
 }
 
-void writeFunction(ofstream &fout, string retType, string funName, vector<string>& parVect, vector<string>& ipList)
+void writeFunction(ofstream &fout, string retType, string funName, vector<Argument>& parVect, vector<string>& ipList)
 {
 	/* code */
 
 	//Work starts here
 	fout<<"\tpublic static "<<retType<<" "<<funName<<"(";
 	int i;
-	for (i=0;i<parVect.size()-1;i++)
+	for (i=0;i<parVect.size();i++)
 	{
-		fout<<parVect[i]<<" p"<<i<<",";
-	}
-	if(parVect.size())
-		fout<<parVect[i]<<" p"<<i;	
+		fout<<lookUpConstantName(parVect[i].datatype)<<" "<<parVect[i].name;
+	    if (i < parVect.size() - 1) 
+                fout << ", " ;
+        }
 	fout<<")\n\t{\n";
 
 
@@ -124,7 +124,7 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<string
 	fout<<"\t\t\tpublic String funName;\n";
 	for (i=0;i<parVect.size();i++)
 	{
-		fout<<"\t\t\tpublic "<<parVect[i]<<" p"<<i<<";\n";
+		fout<<"\t\t\tpublic "<<lookUpConstantName(parVect[i].datatype)<<" "<<parVect[i].name<<";\n";
 	}
 	fout<<"\t\t\tpublic Throwable thro;\n";
 	fout<<"\t\t\tpublic void write_to_stream(OutputStream os)\n";	
@@ -148,7 +148,7 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<string
 	fout<<"\t\tRPCObj.funName=\""<<funName<<"\";\n";
 	for (i=0;i<parVect.size();i++)
 	{
-		fout<<"\t\tRPCObj.p"<<i<<"=p"<<i<<";\n";
+		fout<<"\t\tRPCObj."<<parVect[i].name<<"="<<parVect[i].name<<";\n";
 	}
 	fout<<"\t\tRPCObj.thro=null;\n";
 	//Work to be done
@@ -168,9 +168,12 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<string
 	fout<<"\t\t\t\t\tis.close();\n";
 	fout<<"\t\t\t\t\treceiver.close();\n";
 	fout<<"\t\t\t\t\tss.close();\n";
-	fout<<"\t\t\t\t\tRPCObj.p0 = returned_obj.p0;\n";
-	fout<<"\t\t\t\t\tRPCObj.p1 = returned_obj.p1;\n";
-	fout<<"\t\t\t\t\tRPCObj.thro = returned_obj.thro;\n";
+	
+	for (i=0;i<parVect.size();i++)
+	{
+		fout<<"\t\t\t\t\tRPCObj."<<parVect[i].name<<" = returned_obj."<<parVect[i].name<<";\n";
+	}
+        fout<<"\t\t\t\t\tRPCObj.thro = returned_obj.thro;\n";
 	fout<<"\t\t\t\t\tRPCObj.retVal = returned_obj.retVal;\n";
 	fout<<"\t\t\t\t}\n";
 	fout<<"\t\t\t\tcatch(Exception e)\n";	
@@ -199,7 +202,7 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<string
 	fout<<"\t\twhile(receiver.getState()!=Thread.State.TERMINATED){}\n";
 	for (i=0;i<parVect.size();i++)
 	{
-		fout<<"\t\tp"<<i<<" = RPCObj.p"<<i<<";\n";
+		fout<<"\t\t"<<parVect[i].name<<" = RPCObj."<<parVect[i].name<<";\n";
 	}
 	fout<<"\t\treturn RPCObj.retVal;\n";
 	fout<<"\t}\n";
@@ -218,14 +221,7 @@ void writeFile()
 	fout<<"public abstract class RPC extends Throwable\n{\n";
 
         for(int i = 1; i < funcID; i++){
-	        string retType("void");
-	        string funName("fun");
-        	vector<string> parVect;
-	        vector<string> ipList;
-        	parVect.push_back("udc1");
-	        parVect.push_back("udc2");
-        	ipList.push_back("127.0.0.1");
-                
+	        string retType("int");
 	        writeFunction(fout, retType, funcName[i], allArguments[i], allLocations[i]);
         }
 
@@ -249,46 +245,6 @@ int main() {
     yyparse();
     writeFile();
 
-/*
-    ofstream myheader;
-    myheader.open ("idlHeader.hpp");
-
-    myheader << "#ifndef _IDLHEADER_H\n#define _IDLHEADER_H\n";
-
-    myheader << definitions << endl;
-    
-    for(int i = 1; i < funcID; i++){
-        cout << "FUNCTION : " << funcName[i] << endl;
-        myheader << "int " << funcName[i] << "(" ;
-
-        cout << "Locations  : ";   
-       for(int j = 0; j < allLocations[i].size(); j++){
-            cout << allLocations[i][j] << " " ;
-       }
-       cout << endl;
-
-
-        cout << "arguments : " << endl ;
-        for(int j = 0; j < allArguments[i].size(); j++){
-            Argument a = allArguments[i][j];
-            cout << a.iotype << " " << a.datatype << " " << a.name << endl;
-            
-            if (j > 0) myheader << ",";
-            if (a.iotype == TYPE_IN){
-                myheader << lookUpConstantName(a.datatype) << " " << a.name ;
-            }else if (a.iotype == TYPE_OUT){
-                myheader << lookUpConstantName(a.datatype) << "* " << a.name;
-            }
-
-        }
-        myheader << ");" << endl; 
-    
-    }
-
-    myheader << "\n#endif\n";
-    myheader.close();
-*/
-    
 }
 
 void yyerror(const char *s) {

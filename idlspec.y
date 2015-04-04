@@ -8,6 +8,7 @@
 #include <set>
 #include <map>
 #include "decl.h"
+#include "rpc.hpp"
 using namespace std;
 using namespace MyNamespace;
 int funcID = 1;
@@ -17,7 +18,7 @@ extern "C" int yyparse();
 extern "C" FILE *yyin;
 extern "C" int linenum;
 
-extern void writeFunction(ofstream &fout, string retType, string funName, vector<Argument>& parVect, vector<string>& ipList);
+// extern void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID);
 
 map <int, vector <Argument> > allArguments;
 map <int, vector <string> > allLocations;
@@ -104,6 +105,7 @@ string lookUpConstantName(int c){
 }
 }
 
+/*
 void writeFile()
 {
   ofstream fout("RPC.java",ofstream::out);
@@ -121,6 +123,7 @@ for(int i = 1; i < funcID; i++){
 fout<<"}";
   fout.close();
 }
+*/
 
 
 int main() {
@@ -135,7 +138,9 @@ int main() {
     yyin = myfile;
 
     yyparse();
-    writeFile();
+    ofstream fout("RPC.java",ofstream::out);
+    writeFile(fout,allReturnTypes, funcName, allArguments, allLocations,funcID);
+    fout.close();
 
 }
 

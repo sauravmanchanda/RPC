@@ -9,7 +9,7 @@ using namespace std;
 using namespace MyNamespace;
 
 #define YY_DECL extern "C" int yylex()
-extern int linenum = 0;
+int linenum = 0;
 #include "idlspec.tab.hpp"  // to get the token types that we return
 std::stringstream defs;
 

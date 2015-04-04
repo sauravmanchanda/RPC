@@ -1,9 +1,9 @@
 run : compile
-	idlparser
+	./idlparser
 compile : 
-	bison -d idlspec.y -o idlspec.tab.cpp
-	flex idlspec.l
-	g++ idlspec.tab.cpp lex.yy.c rpc.cpp -o idlparser
+	bison -d -o idlspec.tab.cpp idlspec.y
+	flex -o lex.yy.cpp idlspec.l
+	g++ idlspec.tab.cpp lex.yy.cpp rpc.cpp -o idlparser
 rpc : 
 	g++ rpc.cpp -o rpc
 	rpc

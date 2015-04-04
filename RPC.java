@@ -29,6 +29,9 @@ public abstract class RPC extends Throwable
 		RPCObj.retVal=null;
 		RPCObj.funName="refresh";
 		RPCObj.thro=null;
+		ArrayList ipList = new ArrayList();
+		ipList.add("anand");
+
 		Thread receiver = new Thread("Receiver")
 		{
 			public void run()
@@ -101,6 +104,10 @@ public abstract class RPC extends Throwable
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.thro=null;
+		ArrayList ipList = new ArrayList();
+		ipList.add("shashank");
+		ipList.add("saurav");
+
 		Thread receiver = new Thread("Receiver")
 		{
 			public void run()
@@ -179,6 +186,9 @@ public abstract class RPC extends Throwable
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
+		ArrayList ipList = new ArrayList();
+		ipList.add("sahil");
+
 		Thread receiver = new Thread("Receiver")
 		{
 			public void run()
@@ -259,6 +269,10 @@ public abstract class RPC extends Throwable
 		RPCObj.b=b;
 		RPCObj.c=c;
 		RPCObj.thro=null;
+		ArrayList ipList = new ArrayList();
+		ipList.add("saurav");
+		ipList.add("sahil");
+
 		Thread receiver = new Thread("Receiver")
 		{
 			public void run()

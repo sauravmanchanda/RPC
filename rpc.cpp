@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <map>
 #include "decl.h"
 
 using namespace std;
@@ -56,9 +57,16 @@ fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
     fout<<"\t\tRPCObj."<<parVect[i].name<<"="<<parVect[i].name<<";\n";
   }
   fout<<"\t\tRPCObj.thro=null;\n";
-  //Work to be done
+  
+  fout<<"\t\tArrayList ipList = new ArrayList();\n";
+  for (i=0;i<ipList.size();i++)
+  {
+    fout<<"\t\tipList.add(\""<<ipList[i]<<"\");\n";
+  }
+  fout<<"\n";
 
-fout<<"\t\tThread receiver = new Thread(\"Receiver\")\n";	
+
+  fout<<"\t\tThread receiver = new Thread(\"Receiver\")\n";	
   fout<<"\t\t{\n";
   fout<<"\t\t\tpublic void run()\n";	
   fout<<"\t\t\t{\n";	
@@ -112,29 +120,23 @@ for (i=0;i<parVect.size();i++)
 //work ends here
 }
 
-/*
-void writeFile()
+
+void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID)
 {
-	ofstream fout("RPC.java",ofstream::out);
 	fout<<"import UDC.*;\n";
 	fout<<"import java.net.*;\n";
 	fout<<"import java.io.*;\n\n";
 	fout<<"public abstract class RPC extends Throwable\n{\n";
 
-	string retType("udc0");
-	string funName("fun");
-	vector<string> parVect;
-	vector<string> ipList;
-	parVect.push_back("udc1");
-	parVect.push_back("udc2");
-	ipList.push_back("127.0.0.1");
+  for(int i = 1; i < funcID; i++){
+            if (i > 1) {fout << "\n\n\n" ;}
+            writeFunction(fout, allReturnTypes[i], funcName[i], allArguments[i], allLocations[i]);
+          }
 
-
-	writeFunction(fout, retType, funName, parVect, ipList);
 	
 	fout<<"}";
-	fout.close();
 }
+/*
 int main(int argc, char const *argv[])
 {
 	writeFile();

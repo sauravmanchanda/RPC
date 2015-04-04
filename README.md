@@ -1,2 +1,2 @@
 # RPC
-RPC implementation in JAVA
+RPC implementation for JAVA

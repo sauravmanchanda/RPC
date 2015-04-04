@@ -1,0 +1,13 @@
+#def
+
+// this is a definition section, just copied in verbatim
+# include <cstdio>
+struct s {
+        int a, b;
+};
+#enddef
+
+float refresh()[anand]
+int negate(in float a, out float b)[shashank, saurav]
+int add(in int a, in int b,  out int c) [sahil]
+int multiply(in int a, in int b, out int c) [saurav, sahil]

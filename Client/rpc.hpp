@@ -7,5 +7,5 @@
 
 using namespace MyNamespace;
 
-void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID);
+void writeFile(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID);
 #endif

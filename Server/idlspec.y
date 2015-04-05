@@ -8,7 +8,7 @@
 #include <set>
 #include <map>
 #include "decl.h"
-#include "rpc.hpp"
+#include "server.hpp"
 using namespace std;
 using namespace MyNamespace;
 int funcID = 1;
@@ -138,8 +138,7 @@ int main() {
     yyin = myfile;
 
     yyparse();
-    
-    writeFile(allReturnTypes, funcName, allArguments, allLocations,funcID);
+    makePackage(allReturnTypes, funcName, allArguments, allLocations,funcID);
 
 }
 

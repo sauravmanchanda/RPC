@@ -10,13 +10,14 @@ public abstract class RPC extends Throwable
 		class RPCClass implements java.io.Serializable
 		{
 			public float retVal;
-			public String funName;
 			public Throwable thro;
 			public void writeToStream(OutputStream os)
 			{
 				try
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(os);
+					String funName = "refresh";
+					oos.writeObject(funName);
 					oos.writeObject(this);
 					oos.close();
 				}
@@ -45,7 +46,6 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.funName="refresh";
 		RPCObj.thro=null;
 
 		ArrayList<String> ipList = new ArrayList<String>();
@@ -80,7 +80,6 @@ public abstract class RPC extends Throwable
 		class RPCClass implements java.io.Serializable
 		{
 			public int retVal;
-			public String funName;
 			public float a;
 			public float b;
 			public Throwable thro;
@@ -89,6 +88,8 @@ public abstract class RPC extends Throwable
 				try
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(os);
+					String funName = "negate";
+					oos.writeObject(funName);
 					oos.writeObject(this);
 					oos.close();
 				}
@@ -117,7 +118,6 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.funName="negate";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.thro=null;
@@ -157,7 +157,6 @@ public abstract class RPC extends Throwable
 		class RPCClass implements java.io.Serializable
 		{
 			public int retVal;
-			public String funName;
 			public int a;
 			public int b;
 			public int c;
@@ -167,6 +166,8 @@ public abstract class RPC extends Throwable
 				try
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(os);
+					String funName = "add";
+					oos.writeObject(funName);
 					oos.writeObject(this);
 					oos.close();
 				}
@@ -195,7 +196,6 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.funName="add";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.c=c;
@@ -236,7 +236,6 @@ public abstract class RPC extends Throwable
 		class RPCClass implements java.io.Serializable
 		{
 			public int retVal;
-			public String funName;
 			public int a;
 			public int b;
 			public int c;
@@ -246,6 +245,8 @@ public abstract class RPC extends Throwable
 				try
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(os);
+					String funName = "multiply";
+					oos.writeObject(funName);
 					oos.writeObject(this);
 					oos.close();
 				}
@@ -274,7 +275,6 @@ public abstract class RPC extends Throwable
 			}
 		}
 		RPCClass RPCObj = new RPCClass();
-		RPCObj.funName="multiply";
 		RPCObj.a=a;
 		RPCObj.b=b;
 		RPCObj.c=c;

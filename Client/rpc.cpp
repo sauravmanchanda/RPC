@@ -27,7 +27,6 @@ extern void writeFunction(ofstream &fout, string retType, string funName, vector
 
 fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
   fout<<"\t\t\tpublic "<<retType<<" retVal;\n";
-  fout<<"\t\t\tpublic String funName;\n";
   for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\t\tpublic "<< parVect[i].datatype <<" "<<parVect[i].name<<";\n";
@@ -38,6 +37,8 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
   fout<<"\t\t\t\ttry\n";	
   fout<<"\t\t\t\t{\n";
   fout<<"\t\t\t\t\tObjectOutputStream oos = new ObjectOutputStream(os);\n";
+  fout<<"\t\t\t\t\tString funName = \""<<funName<<"\";\n";
+  fout<<"\t\t\t\t\toos.writeObject(funName);\n";
   fout<<"\t\t\t\t\toos.writeObject(this);\n";
   fout<<"\t\t\t\t\toos.close();\n";
   fout<<"\t\t\t\t}\n";		
@@ -70,7 +71,6 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
 
 fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
   // fout<<"\t\tRPCObj.retVal=null;\n";
-  fout<<"\t\tRPCObj.funName=\""<<funName<<"\";\n";
   for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\tRPCObj."<<parVect[i].name<<"="<<parVect[i].name<<";\n";
@@ -154,9 +154,11 @@ for (i=0;i<parVect.size();i++)
 }
 
 
-void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID)
+void writeFile(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int &funcID)
 {
-	fout<<"import UDC.*;\n";
+  ofstream fout("RPC.java",ofstream::out);
+	// fout<<"package RPC.Client;\n";
+  fout<<"import UDC.*;\n";
 	fout<<"import java.net.*;\n";
   fout<<"import java.util.ArrayList;\n";
 	fout<<"import java.io.*;\n\n";
@@ -169,6 +171,7 @@ void writeFile(ofstream &fout, map <int, string> &allReturnTypes, map <int, stri
 
 	
 	fout<<"}";
+  fout.close();
 }
 /*
 int main(int argc, char const *argv[])

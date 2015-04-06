@@ -1,6 +1,7 @@
 package FunctionClasses;
 import UDC.*;
-public abstract class negateClass
+import java.io.*;
+public abstract class NegateClass
 {
 	public static int negate(float a, float b) throws Throwable
 	{
@@ -8,60 +9,33 @@ public abstract class negateClass
 
 
 	}
-	public static void negateCaller(InputStream is, OutputStream os)
+	public static void negateCaller(ObjectInputStream ois, ObjectOutputStream oos)
 	{
-		class RPCClass implements java.io.Serializable
-		{
-			public int retVal;
-			public String funName;
-			public float a;
-			public float b;
-			public Throwable thro;
-			public void writeToStream(OutputStream os)
-			{
-				try
-				{
-					ObjectOutputStream oos = new ObjectOutputStream(os);
-					oos.writeObject(this);
-					oos.close();
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-			}
-			public RPCClass readFromStream(InputStream is)
-			{
-				RPCClass returned_obj=this;
-				try
-				{
-					ObjectInputStream ois = new ObjectInputStream(is);
-					returned_obj = (RPCClass)ois.readObject();
-					ois.close();
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-				finally
-				{
-					return returned_obj;
-				}
-			}
-		}
-		RPCClass RPCObj = new RPCClass();
 		try
 		{
-			RPCObj=RPCObj.readFromStream(is);
+			class retTypeClass implements java.io.Serializable
+			{
+				public int retVal;
+			}
+			retTypeClass ret = new retTypeClass();
+			float a=(float)ois.readObject();
+			float b=(float)ois.readObject();
+
+			int retVal=ret.retVal;
+			Throwable thro=null;
 			try
 			{
-				RPCObj.retVal = negate(RPCObj.a, RPCObj.b);
+				retVal = negate(a, b);
 			}
 			catch(Throwable th)
 			{
-				RPCObj.thro=th;
+				thro=th;
 			}
-			RPCObj.writeToStream(os);
+			oos.writeObject(retVal);
+			oos.writeObject(a);
+			oos.writeObject(b);
+			oos.writeObject(thro);
+
 		}
 		catch(Exception e)
 		{

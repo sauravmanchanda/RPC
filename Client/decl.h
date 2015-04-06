@@ -19,7 +19,7 @@ namespace MyNamespace{
 
 struct Argument{
 	int iotype;
-        string datatype;
+    string datatype;
 	string name;
 };
 

@@ -1,68 +1,44 @@
 package FunctionClasses;
 import UDC.*;
-public abstract class addClass
+import java.io.*;
+public abstract class AddClass
 {
 	public static int add(int a, int b, int c) throws Throwable
 	{
-
-
+		
+		int d=a+b+c;
+		return d;
 
 	}
-	public static void addCaller(InputStream is, OutputStream os)
+	public static void addCaller(ObjectInputStream ois, ObjectOutputStream oos)
 	{
-		class RPCClass implements java.io.Serializable
-		{
-			public int retVal;
-			public String funName;
-			public int a;
-			public int b;
-			public int c;
-			public Throwable thro;
-			public void writeToStream(OutputStream os)
-			{
-				try
-				{
-					ObjectOutputStream oos = new ObjectOutputStream(os);
-					oos.writeObject(this);
-					oos.close();
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-			}
-			public RPCClass readFromStream(InputStream is)
-			{
-				RPCClass returned_obj=this;
-				try
-				{
-					ObjectInputStream ois = new ObjectInputStream(is);
-					returned_obj = (RPCClass)ois.readObject();
-					ois.close();
-				}
-				catch(Exception e)
-				{
-					System.out.println(e);
-				}
-				finally
-				{
-					return returned_obj;
-				}
-			}
-		}
-		RPCClass RPCObj = new RPCClass();
 		try
 		{
-			RPCObj=RPCObj.readFromStream(is);
+			class retTypeClass implements java.io.Serializable
+			{
+				public int retVal;
+			}
+			retTypeClass ret = new retTypeClass();
+			int a=(int)ois.readObject();
+			int b=(int)ois.readObject();
+			int c=(int)ois.readObject();
+
+			int retVal=ret.retVal;
+			Throwable thro=null;
 			try
 			{
-				RPCObj.retVal = add(RPCObj.a, RPCObj.b, RPCObj.c);
+				retVal = add(a, b, c);
 			}
 			catch(Throwable th)
 			{
-				RPCObj.thro=th;
+				thro=th;
 			}
-			RPCObj.writeToStream(os);
+			oos.writeObject(retVal);
+			oos.writeObject(a);
+			oos.writeObject(b);
+			oos.writeObject(c);
+			oos.writeObject(thro);
+
 		}
 		catch(Exception e)
 		{

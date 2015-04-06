@@ -27,25 +27,29 @@ public class RPCServer implements Runnable {
       try {
 
          InputStream is = csocket.getInputStream();
-         OutputStream os = csocket.getOutputStream();
-         
          ObjectInputStream ois = new ObjectInputStream(is);
+
+         OutputStream os = csocket.getOutputStream();
+         ObjectOutputStream oos = new ObjectOutputStream(os);
+
          String funName = (String)ois.readObject();
          // String funClass = funName.substring(0,1).toUpperCase() + funName.substring(1)+"Class";
          try {
             Class<?> funClass = Class.forName("FunctionClasses."+funName.substring(0,1).toUpperCase() + funName.substring(1)+"Class");
-            Method funMethod = funClass.getMethod(funName+"Caller", InputStream.class, OutputStream.class);
-            funMethod.invoke(null,is,os);
+            Method funMethod = funClass.getMethod(funName+"Caller", ObjectInputStream.class, ObjectOutputStream.class);
+            funMethod.invoke(null,ois,oos);
          }
          catch (Exception e) {
             System.out.println(e);
-         }   
+         }
+         ois.close();
          is.close();
-         os.close();
+         oos.close();
+         os.close();   
          csocket.close();
       }
       catch (Exception e) {
-         System.out.println(e);
+        System.out.println(e);
       }
    }
 }

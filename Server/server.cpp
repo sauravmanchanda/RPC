@@ -36,13 +36,12 @@ extern void writeFunction2(ofstream &fout, string retType, string funName, vecto
 
 //Work starts here
   int i; 
-  fout<<"\tpublic static void "<<funName<<"Caller(InputStream is, OutputStream os)\n\t{\n";
+  fout<<"\tpublic static void "<<funName<<"Caller(ObjectInputStream ois, ObjectOutputStream oos)\n\t{\n";
 
 
-
-fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
+  /*
+  fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
   fout<<"\t\t\tpublic "<<retType<<" retVal;\n";
-  fout<<"\t\t\tpublic String funName;\n";
   for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\t\tpublic "<< parVect[i].datatype <<" "<<parVect[i].name<<";\n";
@@ -85,19 +84,37 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
 
   fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
   // fout<<"\t\tRPCObj.retVal=null;\n";
-  
+  */  
 
 
   fout<<"\t\ttry\n";  
   fout<<"\t\t{\n";
-  fout<<"\t\t\tRPCObj=RPCObj.readFromStream(is);\n";
-  
-  fout<<"\t\t\ttry\n";  
-  fout<<"\t\t\t{\n";
-  fout<<"\t\t\t\tRPCObj.retVal = "<<funName<<"(";
+
+  fout<<"\t\t\tclass retTypeClass implements java.io.Serializable\n\t\t\t{\n";
+  fout<<"\t\t\t\tpublic "<<retType<<" retVal;\n";
+  fout<<"\t\t\t}\n";
+  fout<<"\t\t\tretTypeClass ret = new retTypeClass();\n";
+
+
+
   for (i=0;i<parVect.size();i++)
   {
-    fout<<"RPCObj."<<parVect[i].name;
+    fout<<"\t\t\t"<<parVect[i].datatype<<" "<<parVect[i].name<<"=("<<parVect[i].datatype<<")ois.readObject();\n";
+  }
+  fout<<"\n";
+
+  
+
+
+  
+  fout<<"\t\t\t"<<retType<<" retVal=ret.retVal;\n";
+  fout<<"\t\t\tThrowable thro=null;\n";
+  fout<<"\t\t\ttry\n";  
+  fout<<"\t\t\t{\n";
+  fout<<"\t\t\t\tretVal = "<<funName<<"(";
+  for (i=0;i<parVect.size();i++)
+  {
+    fout<<parVect[i].name;
     if (i < parVect.size() - 1) 
       fout << ", " ;
   }
@@ -105,11 +122,20 @@ fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
   fout<<"\t\t\t}\n";    
   fout<<"\t\t\tcatch(Throwable th)\n"; 
   fout<<"\t\t\t{\n";
-  fout<<"\t\t\t\tRPCObj.thro=th;\n";
+  fout<<"\t\t\t\tthro=th;\n";
   fout<<"\t\t\t}\n";  
 
 
-  fout<<"\t\t\tRPCObj.writeToStream(os);\n";
+
+  fout<<"\t\t\toos.writeObject(retVal);\n";
+  for (i=0;i<parVect.size();i++)
+  {
+    fout<<"\t\t\toos.writeObject("<<parVect[i].name<<");\n";
+  }
+  fout<<"\t\t\toos.writeObject(thro);\n";
+  fout<<"\n";
+
+
   fout<<"\t\t}\n";    
   fout<<"\t\tcatch(Exception e)\n"; 
   fout<<"\t\t{\n";
@@ -145,8 +171,9 @@ void makePackage(map <int, string> &allReturnTypes, map <int, string> &funcName,
     ofstream fout(("FunctionClasses/"+className+".java").c_str(),ofstream::out);
     fout<<"package FunctionClasses;\n";
     fout<<"import UDC.*;\n";
+    fout<<"import java.io.*;\n";
     
-    fout<<"public abstract class "+funcName[i]+"Class\n{\n";
+    fout<<"public abstract class "+className+"\n{\n";
 
 
     writeFunction1(fout, allReturnTypes[i], funcName[i], allArguments[i], allLocations[i]);

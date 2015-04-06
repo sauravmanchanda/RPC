@@ -39,62 +39,18 @@ extern void writeFunction2(ofstream &fout, string retType, string funName, vecto
   fout<<"\tpublic static void "<<funName<<"Caller(ObjectInputStream ois, ObjectOutputStream oos)\n\t{\n";
 
 
-  /*
-  fout<<"\t\tclass RPCClass implements java.io.Serializable\n\t\t{\n";
-  fout<<"\t\t\tpublic "<<retType<<" retVal;\n";
-  for (i=0;i<parVect.size();i++)
-  {
-    fout<<"\t\t\tpublic "<< parVect[i].datatype <<" "<<parVect[i].name<<";\n";
-  }
-  fout<<"\t\t\tpublic Throwable thro;\n";
-  fout<<"\t\t\tpublic void writeToStream(OutputStream os)\n"; 
-  fout<<"\t\t\t{\n";    
-  fout<<"\t\t\t\ttry\n";  
-  fout<<"\t\t\t\t{\n";
-  fout<<"\t\t\t\t\tObjectOutputStream oos = new ObjectOutputStream(os);\n";
-  fout<<"\t\t\t\t\toos.writeObject(this);\n";
-  fout<<"\t\t\t\t\toos.close();\n";
-  fout<<"\t\t\t\t}\n";    
-  fout<<"\t\t\t\tcatch(Exception e)\n"; 
-  fout<<"\t\t\t\t{\n";
-  fout<<"\t\t\t\t\tSystem.out.println(e);\n";
-  fout<<"\t\t\t\t}\n";  
-  fout<<"\t\t\t}\n";
-
-  fout<<"\t\t\tpublic RPCClass readFromStream(InputStream is)\n"; 
-  fout<<"\t\t\t{\n";    
-  fout<<"\t\t\t\tRPCClass returned_obj=this;\n";
-  fout<<"\t\t\t\ttry\n";  
-  fout<<"\t\t\t\t{\n";
-  fout<<"\t\t\t\t\tObjectInputStream ois = new ObjectInputStream(is);\n";
-  fout<<"\t\t\t\t\treturned_obj = (RPCClass)ois.readObject();\n";
-  fout<<"\t\t\t\t\tois.close();\n";
-  fout<<"\t\t\t\t}\n";    
-  fout<<"\t\t\t\tcatch(Exception e)\n"; 
-  fout<<"\t\t\t\t{\n";
-  fout<<"\t\t\t\t\tSystem.out.println(e);\n";
-  fout<<"\t\t\t\t}\n";
-  fout<<"\t\t\t\tfinally\n"; 
-  fout<<"\t\t\t\t{\n";
-  fout<<"\t\t\t\t\treturn returned_obj;\n";
-  fout<<"\t\t\t\t}\n";
-  fout<<"\t\t\t}\n";
-  fout<<"\t\t}\n";
-
-
-  fout<<"\t\tRPCClass RPCObj = new RPCClass();\n";
-  // fout<<"\t\tRPCObj.retVal=null;\n";
-  */  
+  
 
 
   fout<<"\t\ttry\n";  
   fout<<"\t\t{\n";
-
-  fout<<"\t\t\tclass retTypeClass implements java.io.Serializable\n\t\t\t{\n";
-  fout<<"\t\t\t\tpublic "<<retType<<" retVal;\n";
-  fout<<"\t\t\t}\n";
-  fout<<"\t\t\tretTypeClass ret = new retTypeClass();\n";
-
+  if (retType.compare("void")!=0)
+  {
+    fout<<"\t\t\tclass retTypeClass implements java.io.Serializable\n\t\t\t{\n";
+    fout<<"\t\t\t\tpublic "<<retType<<" retVal;\n";
+    fout<<"\t\t\t}\n";
+    fout<<"\t\t\tretTypeClass ret = new retTypeClass();\n";
+  }
 
 
   for (i=0;i<parVect.size();i++)
@@ -106,12 +62,15 @@ extern void writeFunction2(ofstream &fout, string retType, string funName, vecto
   
 
 
-  
-  fout<<"\t\t\t"<<retType<<" retVal=ret.retVal;\n";
+  if (retType.compare("void")!=0)
+    fout<<"\t\t\t"<<retType<<" retVal=ret.retVal;\n";
   fout<<"\t\t\tThrowable thro=null;\n";
   fout<<"\t\t\ttry\n";  
   fout<<"\t\t\t{\n";
-  fout<<"\t\t\t\tretVal = "<<funName<<"(";
+
+  if (retType.compare("void")!=0)
+    fout<<"\t\t\t\tretVal = ";
+  fout<<funName<<"(";
   for (i=0;i<parVect.size();i++)
   {
     fout<<parVect[i].name;
@@ -126,8 +85,8 @@ extern void writeFunction2(ofstream &fout, string retType, string funName, vecto
   fout<<"\t\t\t}\n";  
 
 
-
-  fout<<"\t\t\toos.writeObject(retVal);\n";
+  if (retType.compare("void")!=0)
+    fout<<"\t\t\toos.writeObject(retVal);\n";
   for (i=0;i<parVect.size();i++)
   {
     fout<<"\t\t\toos.writeObject("<<parVect[i].name<<");\n";

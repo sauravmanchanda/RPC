@@ -31,7 +31,7 @@ inout           {return IO_INOUT;}
 "["         { return('['); }
 "]"         { return(']'); }
 
-[a-zA-Z0-9]+      {
+[a-zA-Z0-9.]+      {
     // cout << "Found a string: " << yytext << endl;
     // we have to copy because we can't rely on yytext not changing underneath us:
     yylval.sval = strdup(yytext);

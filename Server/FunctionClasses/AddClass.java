@@ -5,9 +5,8 @@ public abstract class AddClass
 {
 	public static int add(int a, int b, int c) throws Throwable
 	{
-		
-		int d=a+b+c;
-		return d;
+
+		return a+b+c;
 
 	}
 	public static void addCaller(ObjectInputStream ois, ObjectOutputStream oos)

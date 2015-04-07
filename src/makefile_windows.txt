@@ -6,7 +6,6 @@ createClientAndServerCode : compileIDL
 	cp local.java gen\server\local.java
 	cp RPCServer.java gen\server\RPCServer.java
 	cp ServerSelector.java gen/client/ServerSelector.java
-
 compileIDL : compileParser
 	./idlparser 
 

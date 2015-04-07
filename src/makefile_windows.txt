@@ -1,7 +1,18 @@
 run : createClientAndServerCode
 
-createClientAndServerCode : compileIDL
+createClientAndServerCode : compileIDL compileUDC
+	cp local.java gen\server\local.java
+	cp RPCServer.java gen\server\RPCServer.java
+	javac gen\server\RPCServer.java
+	cp ServerSelector.java gen/server/ServerSelector.java
+	javac gen\server\ServerSelector.java
+	cp -avr UDC gen/server/UDC
+	cp -avr UDC gen/client/UDC
 
+compileUDC :
+	cd UDC
+	javac *.java
+	cd ..
 
 compileIDL : compileParser
 	idlparser.exe 

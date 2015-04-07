@@ -34,7 +34,7 @@ void writeFunction1(ofstream &fout, string retType, string funName, vector<Argum
         fout << ", " ;
     }
 
-    fout << ")\n\t}\n\n";
+    fout << ");\n\t}\n\n";
 //work ends here
 }
 
@@ -135,7 +135,7 @@ extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &fu
     string className=funcName[i]+"Class";
     className[0]=toupper(className[0]);
 
-    ofstream fout(("gen/server/"+className+".java").c_str(),ofstream::out);
+    ofstream fout(("gen/server/FunctionClasses/"+className+".java").c_str(),ofstream::out);
     fout<<"package FunctionClasses;\n";
     fout<<"import UDC.*;\n";
     fout<<"import java.io.*;\n";

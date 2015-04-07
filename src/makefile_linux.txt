@@ -1,0 +1,30 @@
+run : createClientAndServerCode
+
+createClientAndServerCode : compileIDL compileUDC
+	cp local.java gen\server\local.java
+	cp RPCServer.java gen\server\RPCServer.java
+	javac gen\server\RPCServer.java
+	cp ServerSelector.java gen/server/ServerSelector.java
+	javac gen\server\ServerSelector.java
+	cp -avr UDC gen/server/UDC
+	cp -avr UDC gen/client/UDC
+
+compileUDC :
+	cd UDC
+	javac *.java
+	cd ..
+
+compileIDL : compileParser
+	idlparser.exe 
+
+compileParser : 
+	bison -d -o idlspec.tab.cpp idlspec.y
+	flex idlspec.l 
+	g++ idlspec.tab.cpp lex.yy.c server.cpp ip_windows.cpp client.cpp -o idlparser
+	
+#Need to update clean
+clean :
+	rm -f idlparser.exe 
+	rm -f idlspec.tab.cpp 
+	rm -f idlspec.tab.hpp 
+	rm -f lex.yy.c

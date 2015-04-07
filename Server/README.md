@@ -1,2 +1,0 @@
-# RPC
-RPC server implementation

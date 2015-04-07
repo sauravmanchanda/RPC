@@ -23,9 +23,18 @@ void writeFunction1(ofstream &fout, string retType, string funName, vector<Argum
       if (i < parVect.size() - 1) 
         fout << ", " ;
     }
-    fout<<") throws Throwable\n\t{\n\n\n\n\t}\n";
+    fout<<") throws Throwable\n\t{\n"; 
+    fout << "\t\treturn local." ;
+    fout << funName << "(" ;
 
+    for (i=0;i<parVect.size();i++)
+    {
+      fout <<parVect[i].name;
+      if (i < parVect.size() - 1) 
+        fout << ", " ;
+    }
 
+    fout << ")\n\t}\n\n";
 //work ends here
 }
 

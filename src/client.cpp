@@ -111,7 +111,6 @@ extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &fu
 {
   ofstream fout("gen/client/RPC.java",ofstream::out);
 	// fout<<"package RPC.Client;\n";
-  fout<<"import UDC.*;\n";
 	fout<<"import java.net.*;\n";
   fout<<"import java.util.ArrayList;\n";
 	fout<<"import java.io.*;\n\n";

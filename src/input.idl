@@ -1,5 +1,5 @@
 
 float refresh()[10.102.62.121]
 int negate(in float a, out float b)[localhost, localhost]
-int add(in int a, in int b) [10.102.62.121]
+int add(in int a, in int b) [localhost]
 int multiply(in int a, in int b) [localhost, localhost]

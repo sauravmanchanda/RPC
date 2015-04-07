@@ -1,5 +1,3 @@
-import UDC.*;
-import FunctionClasses.*;
 import java.net.*;
 import java.lang.reflect.Method;
 import java.io.*;
@@ -35,7 +33,7 @@ public class RPCServer implements Runnable {
          String funName = (String)ois.readObject();
          // String funClass = funName.substring(0,1).toUpperCase() + funName.substring(1)+"Class";
          try {
-            Class<?> funClass = Class.forName("FunctionClasses."+funName.substring(0,1).toUpperCase() + funName.substring(1)+"Class");
+            Class<?> funClass = Class.forName(funName.substring(0,1).toUpperCase() + funName.substring(1)+"Class");
             Method funMethod = funClass.getMethod(funName+"Caller", ObjectInputStream.class, ObjectOutputStream.class);
             funMethod.invoke(null,ois,oos);
          }

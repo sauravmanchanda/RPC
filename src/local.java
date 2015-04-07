@@ -1,9 +1,8 @@
-package local;
 
 public abstract class local
 {
 	public static float refresh(){
-		return 1.0;
+		return 1;
 	}
 
 	public static int multiply(int a, int b) throws Throwable

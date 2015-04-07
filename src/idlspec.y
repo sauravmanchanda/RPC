@@ -92,6 +92,7 @@ type_specifier :
                IDENTIFIER             {$$ = $1; }
                | IDENTIFIER '<' IDENTIFIER '>' {
                         $$ = (char *)malloc (strlen ($1) + strlen ($3) + 5); 
+                        $$[0] = '\0';
                         strcat($$, $1);
                         strcat($$, "<");
                         strcat($$, $3);

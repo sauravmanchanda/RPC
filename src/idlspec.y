@@ -60,12 +60,14 @@ body_lines:
     ;
 
 body_line:
-         type_specifier IDENTIFIER '('  ')' '[' locations ']' {allReturnTypes[funcID] = $1 ;funcName[funcID] = $2; funcID ++;}
+         type_specifier IDENTIFIER '('  ')' '[' ']' {allReturnTypes[funcID] = $1 ;funcName[funcID] = $2; funcID ++;}
+    | type_specifier IDENTIFIER '(' arguments ')' '['  ']'  {allReturnTypes[funcID] = $1; funcName[funcID] = $2; funcID ++;}
+    | type_specifier IDENTIFIER '('  ')' '[' locations ']' {allReturnTypes[funcID] = $1 ;funcName[funcID] = $2; funcID ++;}
     | type_specifier IDENTIFIER '(' arguments ')' '[' locations ']'  {allReturnTypes[funcID] = $1; funcName[funcID] = $2; funcID ++;}
     ;
 
 locations:
-         location
+    | location
     | location ',' locations
 
 location :

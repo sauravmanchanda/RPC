@@ -1,5 +1,5 @@
 
-float refresh()[10.102.62.121]
-int negate(in float a, out float b)[localhost, localhost]
-int add(in int a, in int b) [localhost]
-int multiply(in int a, in int b) [localhost, localhost]
+float refresh(vector <int > a )[10.102.62.121]
+int negate(float a, float b)[localhost, localhost]
+int add(int a, int b) [localhost]
+int multiply(int a, int b) [localhost, localhost]

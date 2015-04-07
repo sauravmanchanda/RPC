@@ -30,6 +30,8 @@ inout           {return IO_INOUT;}
 ","         { return(','); }
 "["         { return('['); }
 "]"         { return(']'); }
+"<"         { return('<'); }
+">"         { return('>'); }
 
 [a-zA-Z0-9.]+      {
     // cout << "Found a string: " << yytext << endl;

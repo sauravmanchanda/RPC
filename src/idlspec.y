@@ -40,7 +40,6 @@ void yyerror(const char *s);
 %token <sval> IDENTIFIER
 %token <sval> DEF_END 
 %type <sval> type_specifier
-%type <ival> io_type
 
 %%
 idl:
@@ -78,23 +77,26 @@ arguments:
     | argument ',' arguments  {}
 ;
 argument:
-        io_type type_specifier IDENTIFIER  {
+        type_specifier IDENTIFIER  {
                 Argument a;
-                a. iotype = $1;
-                a. datatype = $2;
-                a. name = $3;
+                a. datatype = $1;
+                a. name = $2;
                 //cout << "detected argument " << funcID << " " << a.iotype << " " << a.datatype << " " << a.name << endl;
 
 allArguments[funcID].push_back(a);
             }
 ;
-io_type : 
-        IO_IN           {$$ = TYPE_IN;}
-    | IO_OUT         {$$ = TYPE_OUT;}
-;
+
 
 type_specifier :
                IDENTIFIER             {$$ = $1; }
+               | IDENTIFIER '<' IDENTIFIER '>' {
+                        $$ = (char *)malloc (strlen ($1) + strlen ($3) + 5); 
+                        strcat($$, $1);
+                        strcat($$, "<");
+                        strcat($$, $3);
+                        strcat($$, ">");
+                        }
 ;
 %%
 

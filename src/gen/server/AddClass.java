@@ -1,10 +1,15 @@
+
+import java.util.*;
 import java.io.*;
 public abstract class AddClass
 {
 	public static int add(int a, int b) throws Throwable
 	{
-		return local.add(a, b);
-	}
+		try{
+			return local.add(a, b);
+		}		catch(Throwable th){
+			throw th;
+		}	}
 
 	public static void addCaller(ObjectInputStream ois, ObjectOutputStream oos)
 	{

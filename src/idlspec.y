@@ -17,9 +17,9 @@ extern "C" int yyparse();
 extern "C" FILE *yyin;
 extern "C" int linenum;
 
-extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID);
+extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID,string &definitions);
 
-extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID);
+extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID,string &definitions);
 
 
 map <int, vector <Argument> > allArguments;
@@ -145,8 +145,8 @@ int main() {
 
     yyparse();
 
-    writeClient(allReturnTypes, funcName, allArguments, allLocations,funcID);
-    writeServer(allReturnTypes, funcName, allArguments, allLocations,funcID);
+    writeClient(allReturnTypes, funcName, allArguments, allLocations,funcID,definitions);
+    writeServer(allReturnTypes, funcName, allArguments, allLocations,funcID,definitions);
 }
 
 void yyerror(const char *s) {

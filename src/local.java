@@ -1,7 +1,7 @@
-
+import java.util.*;
 public abstract class local
 {
-	public static float refresh(){
+	public static float refresh(Vector <Integer> a){
 		return 1;
 	}
 

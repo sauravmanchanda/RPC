@@ -1,13 +1,15 @@
+
+import java.util.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.io.*;
 
 public abstract class RPC extends Throwable
 {
-	public static float refresh(vector<int> a) throws Throwable
+	public static float refresh(Vector<Integer> a) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.62.121");
+		ipList.add("localhost");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?
@@ -31,7 +33,7 @@ public abstract class RPC extends Throwable
 
 			float retVal=(float)ois.readObject();
 			ret.retVal=retVal;
-			a=(vector<int>)ois.readObject();
+			a=(Vector<Integer>)ois.readObject();
 			Throwable thro=(Throwable)ois.readObject();
 
 			oos.close();

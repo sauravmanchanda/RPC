@@ -1,10 +1,15 @@
+
+import java.util.*;
 import java.io.*;
 public abstract class NegateClass
 {
 	public static int negate(float a, float b) throws Throwable
 	{
-		return local.negate(a, b);
-	}
+		try{
+			return local.negate(a, b);
+		}		catch(Throwable th){
+			throw th;
+		}	}
 
 	public static void negateCaller(ObjectInputStream ois, ObjectOutputStream oos)
 	{

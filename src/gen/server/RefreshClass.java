@@ -1,33 +1,32 @@
 
 import java.util.*;
 import java.io.*;
-public abstract class MultiplyClass
+public abstract class RefreshClass
 {
-	public static int multiply(int a, int b) throws Throwable
+	public static float refresh(Vector<Integer> a) throws Throwable
 	{
 		try{
-			return local.multiply(a, b);
+			return local.refresh(a);
 		}		catch(Throwable th){
 			throw th;
 		}	}
 
-	public static void multiplyCaller(ObjectInputStream ois, ObjectOutputStream oos)
+	public static void refreshCaller(ObjectInputStream ois, ObjectOutputStream oos)
 	{
 		try
 		{
 			class retTypeClass implements java.io.Serializable
 			{
-				public int retVal;
+				public float retVal;
 			}
 			retTypeClass ret = new retTypeClass();
-			int a=(int)ois.readObject();
-			int b=(int)ois.readObject();
+			Vector<Integer> a=(Vector<Integer>)ois.readObject();
 
-			int retVal=ret.retVal;
+			float retVal=ret.retVal;
 			Throwable thro=null;
 			try
 			{
-				retVal = multiply(a, b);
+				retVal = refresh(a);
 			}
 			catch(Throwable th)
 			{
@@ -35,7 +34,6 @@ public abstract class MultiplyClass
 			}
 			oos.writeObject(retVal);
 			oos.writeObject(a);
-			oos.writeObject(b);
 			oos.writeObject(thro);
 
 		}

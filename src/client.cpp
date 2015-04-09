@@ -107,10 +107,11 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<Argume
 }
 
 
-extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID)
+extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID,string &definitions)
 {
   ofstream fout("gen/client/RPC.java",ofstream::out);
 	// fout<<"package RPC.Client;\n";
+  fout<<definitions;
 	fout<<"import java.net.*;\n";
   fout<<"import java.util.ArrayList;\n";
 	fout<<"import java.io.*;\n\n";

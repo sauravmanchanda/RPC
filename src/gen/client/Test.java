@@ -30,8 +30,9 @@ public class Test
 			}
 			Vector<Byte> b = RPC.getSong("a");
 			FileOutputStream fileStream=new FileOutputStream(new File("media.mp3"));
+			BufferedOutputStream bos = new BufferedOutputStream(fileStream);
 			for(int i = 0; i < b.size(); i++){
-				fileStream.write(b.get(i));
+				bos.write(b.get(i));
 			}
 
 		}

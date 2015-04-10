@@ -35,7 +35,7 @@ public abstract class local
 		System.out.println("get song called for " + songName);
 		try {
 			File file=null;
-			FileInputStream fileStream=new FileInputStream(file=new File("media.mp3"));
+			FileInputStream fileStream=new FileInputStream(file=new File("songs/" + songName));
 
 	//		FileInputStream fileStream=new FileInputStream(file=new File("songs/" + songName));
 

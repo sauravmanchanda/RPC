@@ -1,11 +1,15 @@
 run : createClientAndServerCode
 
 createClientAndServerCode : compileIDL 
-	cp -avr UDC/\* gen/server/
-	cp -avr UDC/\* gen/client/
 	cp local.java gen\server\local.java
 	cp RPCServer.java gen\server\RPCServer.java
 	cp ServerSelector.java gen/client/ServerSelector.java
+	cp gen/client/RPC.java mediaplayer/src/tutorial/RPC.java
+	cp gen/client/ServerSelector.java mediaplayer/src/tutorial/ServerSelector.java
+	cp gen/server/\*.java mediaplayer/server/
+	cp gen/server/makefile mediaplayer/server/
+
+
 compileIDL : compileParser
 	./idlparser 
 

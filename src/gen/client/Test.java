@@ -28,7 +28,7 @@ public class Test
 			for(int i = 0; i < x.size(); i++){
 				System.out.println("received " + x.get(i) + " at " + y.get(i));
 			}
-			Vector<Byte> b = RPC.getSong("a");
+			Vector<Byte> b = RPC.getSong("a", "10.102.42.169");
 			FileOutputStream fileStream=new FileOutputStream(new File("media.mp3"));
 			BufferedOutputStream bos = new BufferedOutputStream(fileStream);
 			for(int i = 0; i < b.size(); i++){

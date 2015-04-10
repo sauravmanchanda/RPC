@@ -7,7 +7,7 @@ public class Test
 			int a=3;
 			int b=33;
 			int c=123;
-			int d=RPC.add(a,b,c);
+			int d=RPC.add(a,b);
 			System.out.println("a = "+a);
 			System.out.println("b = "+b);
 			System.out.println("c = "+c);

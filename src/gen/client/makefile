@@ -1,5 +1,5 @@
 run: compile
 	java -cp . Test
 
-compile :
-	javac \*.java
+compile:
+	javac *.java

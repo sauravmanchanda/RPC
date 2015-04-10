@@ -24,7 +24,8 @@ void writeFunction1(ofstream &fout, string retType, string funName, vector<Argum
         fout << ", " ;
     }
     fout<<") throws Throwable\n\t{\n"; 
-    fout << "\t\treturn local." ;
+    fout << "\t\ttry{\n" ;
+    fout << "\t\t\treturn local." ;
     fout << funName << "(" ;
 
     for (i=0;i<parVect.size();i++)
@@ -34,7 +35,16 @@ void writeFunction1(ofstream &fout, string retType, string funName, vector<Argum
         fout << ", " ;
     }
 
-    fout << ");\n\t}\n\n";
+    fout << ");\n";
+	fout << "\t\t}";
+
+	fout << "\t\tcatch(Throwable th){\n" ;
+    
+    fout << "\t\t\tthrow th;\n";
+	fout << "\t\t}";
+
+	fout << "\t}\n\n";
+	
 //work ends here
 }
 
@@ -116,7 +126,7 @@ void writeFunction2(ofstream &fout, string retType, string funName, vector<Argum
 }
 
 
-extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID)
+extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &funcName, map <int, vector <Argument> > &allArguments, map <int, vector <string> > &allLocations, int funcID,string &definitions)
 {
   //cout<<"Going to overwrite FunctionClasses/ (All content will be reset and any code you wrote in this directory will be lost.)\nPlease save the code somewhere else if you want to use it later(Press any key to continue)\n";
   //cin.get();
@@ -136,8 +146,10 @@ extern void writeServer(map <int, string> &allReturnTypes, map <int, string> &fu
     className[0]=toupper(className[0]);
 
     ofstream fout(("gen/server/"+className+".java").c_str(),ofstream::out);
-    fout<<"import java.io.*;\n";
     
+    fout<<definitions;
+    fout<<"import java.io.*;\n";
+
     fout<<"public abstract class "+className+"\n{\n";
 
 

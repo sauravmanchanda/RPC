@@ -2,6 +2,9 @@ import java.util.*;
 public abstract class local
 {
 	public static float refresh(Vector <Integer> a){
+		Enumeration vEnum = a.elements(); 
+		while(vEnum.hasMoreElements())
+			System.out.print(vEnum.nextElement() + " "); 
 		return 1;
 	}
 

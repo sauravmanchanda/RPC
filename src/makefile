@@ -1,4 +1,3 @@
-UNAME := $(shell uname)
 
 ifdef SystemRoot
 	MF = makefile_windows.txt

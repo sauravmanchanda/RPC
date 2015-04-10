@@ -48,7 +48,7 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
-	public static float refresh(Vector<Integer> a,String ipAddr) throws Throwable
+	public static Vector<String> getSongsList(String ipAddr) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add(ipAddr);
@@ -58,7 +58,7 @@ public abstract class RPC extends Throwable
 
 		class retTypeClass implements java.io.Serializable
 		{
-			public float retVal;
+			public Vector<String> retVal;
 		}
 		retTypeClass ret = new retTypeClass();
 		try
@@ -69,13 +69,11 @@ public abstract class RPC extends Throwable
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
 
-			String funName = "refresh";
+			String funName = "getSongsList";
 			oos.writeObject(funName);
-			oos.writeObject(a);
 
-			float retVal=(float)ois.readObject();
+			Vector<String> retVal=(Vector<String>)ois.readObject();
 			ret.retVal=retVal;
-			a=(Vector<Integer>)ois.readObject();
 			Throwable thro=(Throwable)ois.readObject();
 
 			oos.close();
@@ -137,7 +135,7 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
-	public static int negate(float a, float b,String ipAddr) throws Throwable
+	public static Vector<String> getIPList(String ipAddr) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add(ipAddr);
@@ -147,7 +145,7 @@ public abstract class RPC extends Throwable
 
 		class retTypeClass implements java.io.Serializable
 		{
-			public int retVal;
+			public Vector<String> retVal;
 		}
 		retTypeClass ret = new retTypeClass();
 		try
@@ -158,15 +156,11 @@ public abstract class RPC extends Throwable
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
 
-			String funName = "negate";
+			String funName = "getIPList";
 			oos.writeObject(funName);
-			oos.writeObject(a);
-			oos.writeObject(b);
 
-			int retVal=(int)ois.readObject();
+			Vector<String> retVal=(Vector<String>)ois.readObject();
 			ret.retVal=retVal;
-			a=(float)ois.readObject();
-			b=(float)ois.readObject();
 			Throwable thro=(Throwable)ois.readObject();
 
 			oos.close();
@@ -232,7 +226,7 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
-	public static int add(int a, int b,String ipAddr) throws Throwable
+	public static int Register(Vector<String> songNames, String ip,String ipAddr) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add(ipAddr);
@@ -253,15 +247,15 @@ public abstract class RPC extends Throwable
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
 
-			String funName = "add";
+			String funName = "Register";
 			oos.writeObject(funName);
-			oos.writeObject(a);
-			oos.writeObject(b);
+			oos.writeObject(songNames);
+			oos.writeObject(ip);
 
 			int retVal=(int)ois.readObject();
 			ret.retVal=retVal;
-			a=(int)ois.readObject();
-			b=(int)ois.readObject();
+			songNames=(Vector<String>)ois.readObject();
+			ip=(String)ois.readObject();
 			Throwable thro=(Throwable)ois.readObject();
 
 			oos.close();
@@ -325,7 +319,7 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
-	public static int multiply(int a, int b,String ipAddr) throws Throwable
+	public static Vector<Byte> getSong(String SongName,String ipAddr) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
 		ipList.add(ipAddr);
@@ -335,7 +329,7 @@ public abstract class RPC extends Throwable
 
 		class retTypeClass implements java.io.Serializable
 		{
-			public int retVal;
+			public Vector<Byte> retVal;
 		}
 		retTypeClass ret = new retTypeClass();
 		try
@@ -346,15 +340,13 @@ public abstract class RPC extends Throwable
 			InputStream is = s.getInputStream();
 			ObjectInputStream ois = new ObjectInputStream(is);
 
-			String funName = "multiply";
+			String funName = "getSong";
 			oos.writeObject(funName);
-			oos.writeObject(a);
-			oos.writeObject(b);
+			oos.writeObject(SongName);
 
-			int retVal=(int)ois.readObject();
+			Vector<Byte> retVal=(Vector<Byte>)ois.readObject();
 			ret.retVal=retVal;
-			a=(int)ois.readObject();
-			b=(int)ois.readObject();
+			SongName=(String)ois.readObject();
 			Throwable thro=(Throwable)ois.readObject();
 
 			oos.close();

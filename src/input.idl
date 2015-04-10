@@ -2,7 +2,7 @@
 import java.util.*;
 #enddef
 
-float refresh(Vector <Integer> a )[localhost]
-int negate(float a, float b)[localhost, localhost]
-int add(int a, int b) [localhost]
-int multiply(int a, int b) [localhost, localhost]
+Vector<String> getSongsList()[10.102.42.169]
+Vector<String> getIPList()[10.102.42.169]
+int Register(Vector <String> songNames, String ip)[10.102.42.169]
+Vector<Byte>getSong (String SongName)[10.102.42.169]

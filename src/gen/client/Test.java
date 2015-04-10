@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class Test
 {
@@ -6,30 +7,37 @@ public class Test
 	{
 		try
 		{
-			int a=3;
-			int b=33;
-			int c=123;
-			int d=RPC.add(a,b);
-			System.out.println("a = "+a);
-			System.out.println("b = "+b);
-			System.out.println("c = "+c);
-			System.out.println("d = "+d);
-
-
-			Vector v = new Vector(3, 2);
-			System.out.println("Initial size: " + v.size());
-			System.out.println("Initial capacity: " + v.capacity());
-			
-			for (int i = 1; i < 1000; i ++){
-				v.addElement(new Integer(i)); 
+			Vector<String> v = new Vector();
+			for (Integer i = 0; i < 10; i ++){
+				v.addElement( "song " + i.toString()); 
+				System.out.println("added " + v.get(i));
 			}
-			
-			System.out.println("Final size: " + v.size());
-			System.out.println("calling refresh");
-			RPC.refresh(v);
+		
+
+			RPC.Register(v, "10.102.42.169");
+			System.out.println("finished registering");
+
+			Vector <String > x,y;
+			x = new Vector(); y = new Vector();
+			x.add ("a"); y.add("b");
+			System.out.println("getting songs ");
+			x = RPC.getSongsList();
+			y = RPC.getIPList();
+			System.out.println("getting songs call completed " + x.size () + " " + y.size());
+
+			for(int i = 0; i < x.size(); i++){
+				System.out.println("received " + x.get(i) + " at " + y.get(i));
+			}
+			Vector<Byte> b = RPC.getSong("a");
+			FileOutputStream fileStream=new FileOutputStream(new File("media.mp3"));
+			for(int i = 0; i < b.size(); i++){
+				fileStream.write(b.get(i));
+			}
+
 		}
 		catch(Throwable th)
 		{
+			System.out.println("some error");
 			System.out.println(th);
 		}
 	}

@@ -8,7 +8,7 @@
 using namespace std;
 using namespace MyNamespace;
 
-void writeFunction(ofstream &fout, string retType, string funName, vector<Argument>& parVect, vector<string>& ipList)
+void writeFunction(ofstream &fout, string retType, string funName, vector<Argument>& parVect, vector<string> ipList=vector<string>())
 {
   /* code */
 
@@ -21,17 +21,31 @@ void writeFunction(ofstream &fout, string retType, string funName, vector<Argume
       if (i < parVect.size() - 1) 
                 fout << ", " ;
         }
+    if(ipList.size()==0)
+    {	
+    	if (parVect.size()>0)
+    		fout<<",";
+    	fout<<"String ipAddr";
+    }
   fout<<") throws Throwable\n\t{\n";
 
 
 
+	if(ipList.size()>0)
+	{
+	  fout<<"\t\tArrayList<String> ipList = new ArrayList<String>();\n";
+	  for (i=0;i<ipList.size();i++)
+	  {
+	    fout<<"\t\tipList.add(\""<<ipList[i]<<"\");\n";
+	  }
+	  fout<<"\n";
+	}
+	else{
+		fout<<"\t\tArrayList<String> ipList = new ArrayList<String>();\n";
+  		fout<<"\t\tipList.add(ipAddr);\n";
+ 		fout<<"\n";
+	}
 
-  fout<<"\t\tArrayList<String> ipList = new ArrayList<String>();\n";
-  for (i=0;i<ipList.size();i++)
-  {
-    fout<<"\t\tipList.add(\""<<ipList[i]<<"\");\n";
-  }
-  fout<<"\n";
 
 
 
@@ -120,6 +134,7 @@ extern void writeClient(map <int, string> &allReturnTypes, map <int, string> &fu
   for(int i = 1; i < funcID; i++){
             if (i > 1) {fout << "\n\n\n" ;}
             writeFunction(fout, allReturnTypes[i], funcName[i], allArguments[i], allLocations[i]);
+            writeFunction(fout, allReturnTypes[i], funcName[i], allArguments[i]);
           }
 
 	

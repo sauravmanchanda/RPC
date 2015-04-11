@@ -2,8 +2,8 @@
 import java.util.*;
 #enddef
 
-Vector<String> getSongsList()[10.102.42.169]
-Vector<String> getIPList()[10.102.42.169]
-int Register(Vector <String> songNames, String ip)[10.102.42.169]
-Vector<Byte>getSong (String SongName)[10.102.42.169]
-Vector<Byte>getSonginParts(String SongName, Integer offset, Integer chunksize)[10.102.42.169]
+Vector<String> getSongsList()[10.139.253.22]
+Vector<String> getIPList()[10.139.253.22]
+int Register(Vector <String> songNames, String ip)[10.139.253.22]
+Vector<Byte>getSong (String SongName)[10.139.253.22]
+Vector<Byte>getSonginParts(String SongName, Integer offset, Integer chunksize)[10.139.253.22]

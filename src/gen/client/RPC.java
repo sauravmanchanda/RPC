@@ -9,7 +9,7 @@ public abstract class RPC extends Throwable
 	public static Vector<String> getSongsList() throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.42.169");
+		ipList.add("10.139.253.22");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?
@@ -96,7 +96,7 @@ public abstract class RPC extends Throwable
 	public static Vector<String> getIPList() throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.42.169");
+		ipList.add("10.139.253.22");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?
@@ -183,7 +183,7 @@ public abstract class RPC extends Throwable
 	public static int Register(Vector<String> songNames, String ip) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.42.169");
+		ipList.add("10.139.253.22");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?
@@ -278,7 +278,7 @@ public abstract class RPC extends Throwable
 	public static Vector<Byte> getSong(String SongName) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.42.169");
+		ipList.add("10.139.253.22");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?
@@ -369,7 +369,7 @@ public abstract class RPC extends Throwable
 	public static Vector<Byte> getSonginParts(String SongName, Integer offset, Integer chunksize) throws Throwable
 	{
 		ArrayList<String> ipList = new ArrayList<String>();
-		ipList.add("10.102.42.169");
+		ipList.add("10.139.253.22");
 
 		String serverName = ServerSelector.select(ipList,"first");
 		int port = 6066;		//What to do if multiple processes on same machine?

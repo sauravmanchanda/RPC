@@ -204,7 +204,7 @@ public class Tutorial {
             for (Integer i = 0; i < fn.length; i++) {
                 v.addElement(fn[i]);
             }
-
+            System.out.println("calling register");
             RPC.Register(v, myIP);
             System.out.println("finished registering");
 

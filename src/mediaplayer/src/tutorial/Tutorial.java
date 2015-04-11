@@ -43,6 +43,7 @@ public class Tutorial {
     private final Vector<String> ipAddresses;
     private final JButton skipButton;
     private final JButton refreshButton;
+    private final JButton exitButton;
     private final JList songList;
     private final DefaultListModel songsModel;
     private final JButton playButton;
@@ -96,6 +97,9 @@ public class Tutorial {
 
         skipButton = new JButton("Skip");
         controlsPane.add(skipButton);
+        exitButton = new JButton("Skip");
+        controlsPane.add(exitButton);
+
         songsModel = new DefaultListModel();
         songList = new JList(songsModel);
         songList.setSize(100, 100);
@@ -133,6 +137,17 @@ public class Tutorial {
                 mediaPlayerComponent.getMediaPlayer().pause();
             }
         });
+        
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    RPC.Deregister(myIP);
+                } catch (Throwable ex) {
+                }
+            }
+        });
+        
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

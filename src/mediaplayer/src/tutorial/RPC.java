@@ -364,4 +364,103 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
+
+
+
+	public static Vector<Byte> getSonginParts(String SongName, Integer offset, Integer chunksize) throws Throwable
+	{
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("10.102.42.169");
+
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
+
+		class retTypeClass implements java.io.Serializable
+		{
+			public Vector<Byte> retVal;
+		}
+		retTypeClass ret = new retTypeClass();
+		try
+		{
+			Socket s = new Socket(serverName,port);
+			OutputStream os = s.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(os);
+			InputStream is = s.getInputStream();
+			ObjectInputStream ois = new ObjectInputStream(is);
+
+			String funName = "getSonginParts";
+			oos.writeObject(funName);
+			oos.writeObject(SongName);
+			oos.writeObject(offset);
+			oos.writeObject(chunksize);
+
+			Vector<Byte> retVal=(Vector<Byte>)ois.readObject();
+			ret.retVal=retVal;
+			SongName=(String)ois.readObject();
+			offset=(Integer)ois.readObject();
+			chunksize=(Integer)ois.readObject();
+			Throwable thro=(Throwable)ois.readObject();
+
+			oos.close();
+			os.close();
+			ois.close();
+			is.close();
+			s.close();
+			if(thro!=null)
+				throw thro;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return ret.retVal;
+	}
+	public static Vector<Byte> getSonginParts(String SongName, Integer offset, Integer chunksize,String ipAddr) throws Throwable
+	{
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add(ipAddr);
+
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
+
+		class retTypeClass implements java.io.Serializable
+		{
+			public Vector<Byte> retVal;
+		}
+		retTypeClass ret = new retTypeClass();
+		try
+		{
+			Socket s = new Socket(serverName,port);
+			OutputStream os = s.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(os);
+			InputStream is = s.getInputStream();
+			ObjectInputStream ois = new ObjectInputStream(is);
+
+			String funName = "getSonginParts";
+			oos.writeObject(funName);
+			oos.writeObject(SongName);
+			oos.writeObject(offset);
+			oos.writeObject(chunksize);
+
+			Vector<Byte> retVal=(Vector<Byte>)ois.readObject();
+			ret.retVal=retVal;
+			SongName=(String)ois.readObject();
+			offset=(Integer)ois.readObject();
+			chunksize=(Integer)ois.readObject();
+			Throwable thro=(Throwable)ois.readObject();
+
+			oos.close();
+			os.close();
+			ois.close();
+			is.close();
+			s.close();
+			if(thro!=null)
+				throw thro;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return ret.retVal;
+	}
 }

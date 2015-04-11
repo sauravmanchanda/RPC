@@ -3,7 +3,6 @@ run : createClientAndServerCode
 createClientAndServerCode : compileIDL 
 	cp local.java gen\server\local.java
 	cp RPCServer.java gen\server\RPCServer.java
-	cp RPC.java gen/client/RPC.java
 	cp ServerSelector.java gen/client/ServerSelector.java
 	cp gen/server/\*.java mediaplayer/server/
 	cp gen/server/makefile mediaplayer/server/

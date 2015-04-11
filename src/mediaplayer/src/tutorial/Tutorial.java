@@ -110,7 +110,8 @@ public class Tutorial {
                 Vector<Byte> b;
 
                 try {
-                    b = RPC.getSong((String) (songList.getSelectedValue()),
+                    int chunksize = 100000;
+                    b = RPC.getSonginParts((String) (songList.getSelectedValue()), 0, chunksize,
                             ipAddresses.get(songList.getSelectedIndex()));
 
                     File f = new File("media.mp3");
@@ -120,10 +121,25 @@ public class Tutorial {
                     for (int i = 0; i < b.size(); i++) {
                         bos.write(b.get(i));
                     }
-
+                    bos.flush();
+                    System.out.println("first fetch complete, playing started");
+                    mediaPlayerComponent.getMediaPlayer().playMedia("media.mp3");
+                    System.out.println("starting the next fetches");
+                    int currentoffset = b.size();
+                    while (b.size() > 0) {
+                        b = RPC.getSonginParts((String) (songList.getSelectedValue()), currentoffset, chunksize,
+                                ipAddresses.get(songList.getSelectedIndex()));
+                        for (int i = 0; i < b.size(); i++) {
+                            bos.write(b.get(i));
+                        }
+                        System.out.println("fetched from " + currentoffset + " to " + (currentoffset + b.size()));
+                        currentoffset += b.size();
+                       
+                    }
+                    System.out.println("fetch finished");
                     bos.close();
                     fileStream.close();
-                    mediaPlayerComponent.getMediaPlayer().playMedia("media.mp3");
+
                 } catch (Throwable ex) {
                     Logger.getLogger(Tutorial.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -181,10 +197,10 @@ public class Tutorial {
         try {
             String[] fn = fileNames();
             Vector<String> v = new Vector();
-            
+
             myIP = getOwnIP();
             System.out.println("IP detected to " + myIP);
-            
+
             for (Integer i = 0; i < fn.length; i++) {
                 v.addElement(fn[i]);
             }

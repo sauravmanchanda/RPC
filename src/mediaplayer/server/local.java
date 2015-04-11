@@ -60,4 +60,41 @@ public abstract class local
 		}
 		return null;
 	}
+
+	public static Vector<Byte> getSonginParts(String songName, Integer offset, Integer chunksize){
+
+
+	/// getBytes from anyWhere
+	// I'm getting byte array from File
+		System.out.println("get song in part for song called for " + songName + " from " + offset.toString() + " size " + chunksize);
+		try {
+			File file=null;
+			FileInputStream fileStream=new FileInputStream(file=new File("songs/" + songName));
+
+	//		FileInputStream fileStream=new FileInputStream(file=new File("songs/" + songName));
+
+		    // Instantiate array
+			System.out.println("file size : " + (int)file.length() );
+		    byte []arr= new byte[chunksize];
+		    fileStream.skip(offset);
+		    /// read All bytes of File stream
+		    int retval = fileStream.read(arr,0,arr.length);
+		    System.out.println("reading over, sending chunk");
+		    Vector<Byte> v = new Vector();
+		    if (retval == -1 ){
+		    	System.out.println("EOF reached, returning");
+		    	return v;
+		    }
+		    for (int i =0 ; i < retval; i++){
+//		    	System.out.println( "set at " + i + " " + arr[i]);
+		        v.add(arr[i]);
+		    }
+		    return v;
+	    }
+	    catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return null;
+	}
 }

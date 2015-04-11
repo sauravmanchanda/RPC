@@ -42,6 +42,7 @@ public class Tutorial {
     private final JButton rewindButton;
     private final Vector<String> ipAddresses;
     private final JButton skipButton;
+    private final JButton refreshButton;
     private final JList songList;
     private final DefaultListModel songsModel;
     private final JButton playButton;
@@ -83,6 +84,8 @@ public class Tutorial {
 
         JPanel controlsPane = new JPanel();
         JPanel listPane = new JPanel();
+        refreshButton = new JButton("Refresh");
+        controlsPane.add(refreshButton);
 
         playButton = new JButton("Play");
         controlsPane.add(playButton);
@@ -90,6 +93,7 @@ public class Tutorial {
         controlsPane.add(pauseButton);
         rewindButton = new JButton("Rewind");
         controlsPane.add(rewindButton);
+
         skipButton = new JButton("Skip");
         controlsPane.add(skipButton);
         songsModel = new DefaultListModel();
@@ -98,6 +102,31 @@ public class Tutorial {
         listPane.add(songList);
         contentPane.add(controlsPane, BorderLayout.SOUTH);
         contentPane.add(listPane, BorderLayout.NORTH);
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Vector<String> x, y;
+
+                    System.out.println("getting songs ");
+                    x = RPC.getSongsList();
+                    y = RPC.getIPList();
+                    ipAddresses.clear();
+                    System.out.println("getting songs call completed " + x.size() + " " + y.size());
+                    songsModel.clear();
+
+                    for (int i = 0; i < x.size(); i++) {
+                        songsModel.addElement(x.get(i));
+                        System.out.println("received " + x.get(i) + " at " + y.get(i));
+                        ipAddresses.add(y.get(i));
+                    }
+                } catch (Throwable th) {
+                    System.out.println("some error");
+                    System.out.println(th);
+                }
+            }
+        });
         pauseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,8 +139,9 @@ public class Tutorial {
                 Vector<Byte> b;
 
                 try {
-                    int chunksize = 100000;
-                    b = RPC.getSonginParts((String) (songList.getSelectedValue()), 0, chunksize,
+                    int chunksize = 1000000;
+                    int initialchunk = 500000;
+                    b = RPC.getSonginParts((String) (songList.getSelectedValue()), 0, initialchunk,
                             ipAddresses.get(songList.getSelectedIndex()));
 
                     File f = new File("media.mp3");
@@ -134,7 +164,7 @@ public class Tutorial {
                         }
                         System.out.println("fetched from " + currentoffset + " to " + (currentoffset + b.size()));
                         currentoffset += b.size();
-                       
+
                     }
                     System.out.println("fetch finished");
                     bos.close();

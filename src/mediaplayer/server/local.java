@@ -97,4 +97,19 @@ public abstract class local
 		}
 		return null;
 	}
+
+	public static int Deregister(String ip){
+		Vector<String> s, ips;
+		s = new Vector(sNames); ips = new Vector(ipNames);
+		sNames.clear(); ipNames.clear();
+		for (int i = 0 ; i < ipNames.size(); i++){
+			if (ipNames.get(i).equals(ip)){
+
+			}else{
+				sNames.add(s.get(i));
+				ipNames.add(ips.get(i));
+			}
+		}
+
+	}
 }

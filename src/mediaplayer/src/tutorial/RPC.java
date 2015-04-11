@@ -463,4 +463,95 @@ public abstract class RPC extends Throwable
 		}
 		return ret.retVal;
 	}
+
+
+
+	public static int Deregister(String ip) throws Throwable
+	{
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add("10.139.253.22");
+
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
+
+		class retTypeClass implements java.io.Serializable
+		{
+			public int retVal;
+		}
+		retTypeClass ret = new retTypeClass();
+		try
+		{
+			Socket s = new Socket(serverName,port);
+			OutputStream os = s.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(os);
+			InputStream is = s.getInputStream();
+			ObjectInputStream ois = new ObjectInputStream(is);
+
+			String funName = "Deregister";
+			oos.writeObject(funName);
+			oos.writeObject(ip);
+
+			int retVal=(int)ois.readObject();
+			ret.retVal=retVal;
+			ip=(String)ois.readObject();
+			Throwable thro=(Throwable)ois.readObject();
+
+			oos.close();
+			os.close();
+			ois.close();
+			is.close();
+			s.close();
+			if(thro!=null)
+				throw thro;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return ret.retVal;
+	}
+	public static int Deregister(String ip,String ipAddr) throws Throwable
+	{
+		ArrayList<String> ipList = new ArrayList<String>();
+		ipList.add(ipAddr);
+
+		String serverName = ServerSelector.select(ipList,"first");
+		int port = 6066;		//What to do if multiple processes on same machine?
+
+		class retTypeClass implements java.io.Serializable
+		{
+			public int retVal;
+		}
+		retTypeClass ret = new retTypeClass();
+		try
+		{
+			Socket s = new Socket(serverName,port);
+			OutputStream os = s.getOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(os);
+			InputStream is = s.getInputStream();
+			ObjectInputStream ois = new ObjectInputStream(is);
+
+			String funName = "Deregister";
+			oos.writeObject(funName);
+			oos.writeObject(ip);
+
+			int retVal=(int)ois.readObject();
+			ret.retVal=retVal;
+			ip=(String)ois.readObject();
+			Throwable thro=(Throwable)ois.readObject();
+
+			oos.close();
+			os.close();
+			ois.close();
+			is.close();
+			s.close();
+			if(thro!=null)
+				throw thro;
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return ret.retVal;
+	}
 }

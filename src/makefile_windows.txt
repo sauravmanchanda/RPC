@@ -16,7 +16,7 @@ compileIDL : compileParser
 compileParser : 
 	bison -d -o idlspec.tab.cpp idlspec.y
 	flex idlspec.l 
-	g++ idlspec.tab.cpp lex.yy.c server.cpp ip_windows.cpp client.cpp -o idlparser
+	g++ idlspec.tab.cpp lex.yy.c server.cpp ip_windows.cpp client.cpp -o idlparser -lwsock32 -lws2_32
 	
 #Need to update clean
 clean :
